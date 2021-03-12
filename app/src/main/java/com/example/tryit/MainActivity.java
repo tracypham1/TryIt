@@ -20,6 +20,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,6 +40,15 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        FloatingActionButton postButton =findViewById(R.id.button_post);
+        postButton.setOnClickListener(new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                openPostRec();
+            }
+        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -65,5 +75,10 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    public void openPostRec() {
+        Intent intent = new Intent(this, PostRecipe.class);
+        startActivity(intent);
     }
 }
