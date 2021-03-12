@@ -31,7 +31,7 @@ public class Recipe {
     }
 
     //getters and setters
-    String getName() {
+    public String getName() {
         return name;
     }
     public void setName(String name) {
