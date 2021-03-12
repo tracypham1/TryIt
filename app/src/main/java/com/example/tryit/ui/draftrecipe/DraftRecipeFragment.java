@@ -1,9 +1,10 @@
-package com.example.tryit.ui.tools;
+package com.example.tryit.ui.draftrecipe;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -14,22 +15,23 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tryit.R;
 
-public class ToolsFragment extends Fragment {
+public class DraftRecipeFragment extends Fragment {
 
-    private ToolsViewModel toolsViewModel;
+    private DraftRecipeViewModel draftRecipeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        toolsViewModel =
-                ViewModelProviders.of(this).get(ToolsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tools, container, false);
-        final TextView textView = root.findViewById(R.id.text_tools);
-        toolsViewModel.getText().observe(this, new Observer<String>() {
+        draftRecipeViewModel =
+                ViewModelProviders.of(this).get(DraftRecipeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_draftrecipe, container, false);
+        final TextView textView = root.findViewById(R.id.text_draftrecipe);
+        draftRecipeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
         });
+
         return root;
     }
 }

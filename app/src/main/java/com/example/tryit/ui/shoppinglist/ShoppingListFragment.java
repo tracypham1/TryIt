@@ -15,8 +15,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tryit.R;
-import com.example.tryit.ui.shoppinglist.ShoppingListViewModel;
-import com.example.tryit.ui.slideshow.SlideshowViewModel;
 
 import java.util.ArrayList;
 

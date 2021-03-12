@@ -1,24 +1,19 @@
-package com.example.tryit.ui.shoppinglist;
-
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+package com.example.tryit.ui.postrecipe;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.example.tryit.R;
-
 // about the adapter and adding to it:
 // https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView
 
-public class ShoppingListViewModel extends ViewModel {
+public class PostRecipesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ShoppingListViewModel() {
+    public PostRecipesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is shopping list fragment");
+        mText.setValue("This is post recipes fragment");
     }
 
     public LiveData<String> getText() {

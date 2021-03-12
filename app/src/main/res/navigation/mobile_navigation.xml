@@ -12,22 +12,40 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_generatedrecipes"
+        android:name="com.example.tryit.ui.generatedrecipes.GeneratedRecipesFragment"
+        android:label="@string/menu_generatedrecipes"
+        tools:layout="@layout/fragment_generatedrecipes" />
+
+    <fragment
+        android:id="@+id/nav_otherecipes"
+        android:name="com.example.tryit.ui.otherecipes.OtherRecipesFragment"
+        android:label="@string/menu_otherecipes"
+        tools:layout="@layout/fragment_otherecipes" />
+
+    <fragment
+        android:id="@+id/nav_postrecipes"
+        android:name="com.example.tryit.ui.postrecipe.PostRecipesFragment"
+        android:label="@string/menu_postrecipes"
+        tools:layout="@layout/fragment_postrecipes" />
+
+    <fragment
+        android:id="@+id/nav_stores"
+        android:name="com.example.tryit.ui.stores.StoresFragment"
+        android:label="@string/menu_stores"
+        tools:layout="@layout/fragment_stores" />
+
+    <fragment
+        android:id="@+id/nav_shoppinglist"
         android:name="com.example.tryit.ui.shoppinglist.ShoppingListFragment"
         android:label="@string/menu_shoppinglist"
         tools:layout="@layout/fragment_shoppinglist" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.example.tryit.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
-
-    <fragment
-        android:id="@+id/nav_tools"
-        android:name="com.example.tryit.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
-        tools:layout="@layout/fragment_tools" />
+        android:id="@+id/nav_draftrecipes"
+        android:name="com.example.tryit.ui.draftrecipe.DraftRecipeFragment"
+        android:label="@string/menu_draftrecipe"
+        tools:layout="@layout/fragment_draftrecipe" />
 
     <fragment
         android:id="@+id/nav_share"

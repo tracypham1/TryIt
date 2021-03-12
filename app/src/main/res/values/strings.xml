@@ -9,10 +9,20 @@
 
     <string name="menu_home">Home</string>
     <string name="menu_shoppinglist">Shopping List</string>
-    <string name="menu_slideshow">Slideshow</string>
+    <string name="menu_draftrecipe">Draft Recipe</string>
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
+    <string name="menu_generatedrecipes">Generate Recipes</string>
+    <string name="menu_otherecipes">Other Recipes</string>
+    <string name="menu_postrecipes">Post Recipes</string>
+    <string name="menu_stores">Stores</string>
     <string name="menu_send">Send</string>
 
-    <string name="fragment_shopping_list">Shopping List</string>
+    <string name="draftrecipe_recipe_name">Recipe Name</string>
+    <string name="draftrecipe_ingredients">Ingredients</string>
+    <string name="draftrecipe_directions">Directions</string>
+    <string name="type_here">Type Here</string>
+    <string name="save_button">Save</string>
+
+
 </resources>
