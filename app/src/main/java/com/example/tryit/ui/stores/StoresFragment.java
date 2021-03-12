@@ -25,13 +25,6 @@ public class StoresFragment extends Fragment {
         storesViewModel =
                 ViewModelProviders.of(this).get(StoresViewModel.class);
         View root = inflater.inflate(R.layout.fragment_stores, container, false);
-        final TextView textView = root.findViewById(R.id.text_stores);
-        storesViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
         return root;
     }
 }
