@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import org.w3c.dom.Text;
 
 public class PostRecipe extends AppCompatActivity {
+
     java.util.ArrayList<Ingredient> ingredients = new java.util.ArrayList<Ingredient>();
     Recipe recipe = new Recipe();
 

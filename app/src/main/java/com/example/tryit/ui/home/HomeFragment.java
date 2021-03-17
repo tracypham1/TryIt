@@ -13,8 +13,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tryit.R;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class HomeFragment extends Fragment {
+    //Firebase DB instance
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private HomeViewModel homeViewModel;
 
