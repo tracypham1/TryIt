@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.content.Intent;
+import android.widget.CheckBox;
 
 public class MainActivity extends AppCompatActivity {
 
