@@ -14,9 +14,6 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.tryit.R;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import android.widget.Button;
 
