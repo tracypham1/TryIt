@@ -22,37 +22,50 @@ import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.content.Intent;
 
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        FloatingActionButton postButton =findViewById(R.id.button_post);
-        postButton.setOnClickListener(new View.OnClickListener () {
-            @Override
-            public void onClick(View v) {
-                openPostRec();
-            }
-        });
+        if(auth.getCurrentUser() == null) {
+            setContentView(R.layout.activity_sign_up);
+            startSignUp();
+        } else {
+            setContentView(R.layout.activity_main);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
-                .setDrawerLayout(drawer)
-                .build();
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        NavigationUI.setupWithNavController(navigationView, navController);
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+
+            FloatingActionButton postButton =findViewById(R.id.button_post);
+            postButton.setOnClickListener(new View.OnClickListener () {
+                @Override
+                public void onClick(View v) {
+                    openPostRec();
+                }
+            });
+
+            DrawerLayout drawer = findViewById(R.id.drawer_layout);
+            NavigationView navigationView = findViewById(R.id.nav_view);
+            // Passing each menu ID as a set of Ids because each
+            // menu should be considered as top level destinations.
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
+                    R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                    .setDrawerLayout(drawer)
+                    .build();
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+            NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+            NavigationUI.setupWithNavController(navigationView, navController);
+        }
+
     }
 
     @Override
@@ -71,6 +84,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void openPostRec() {
         Intent intent = new Intent(this, PostRecipe.class);
+        startActivity(intent);
+    }
+
+    public void startSignUp() {
+        Intent intent = new Intent(this, SignUpActivity.class);
         startActivity(intent);
     }
 }

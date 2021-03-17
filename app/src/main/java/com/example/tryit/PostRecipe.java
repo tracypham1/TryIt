@@ -29,17 +29,17 @@ public class PostRecipe extends AppCompatActivity {
         Button butt_postRec = findViewById(R.id.button_post_rec);
         Button butt_saveRec = findViewById(R.id.button_save_rec);
 
-        final TextInputLayout ingName_layout = (TextInputLayout) findViewById(R.id.in_name_layout);
-        final TextInputLayout ingUnit_layout = (TextInputLayout) findViewById(R.id.unit_input_layout);
-        final TextInputLayout ingAmt_layout = (TextInputLayout) findViewById(R.id.amount_input_layout);
-        final TextInputLayout recName_layout = (TextInputLayout) findViewById(R.id.rec_name_layout);
-        final TextInputLayout steps_layout = (TextInputLayout) findViewById(R.id.steps_layout);
+        final TextInputLayout ingName_layout = findViewById(R.id.in_name_layout);
+        final TextInputLayout ingUnit_layout = findViewById(R.id.unit_input_layout);
+        final TextInputLayout ingAmt_layout = findViewById(R.id.amount_input_layout);
+        final TextInputLayout recName_layout = findViewById(R.id.rec_name_layout);
+        final TextInputLayout steps_layout = findViewById(R.id.steps_layout);
 
-        final String ingName = ingName_layout.getEditText().getText().toString();
-        final String ingUnit = ingUnit_layout.getEditText().getText().toString();
-        final String ingAmount = ingAmt_layout.getEditText().getText().toString();
-        final String recName = recName_layout.getEditText().getText().toString();
-        final String steps = steps_layout.getEditText().getText().toString();
+        final String ingName = ingName_layout.getEditText().getText().toString().trim();
+        final String ingUnit = ingUnit_layout.getEditText().getText().toString().trim();
+        final String ingAmount = ingAmt_layout.getEditText().getText().toString().trim();
+        final String recName = recName_layout.getEditText().getText().toString().trim();
+        final String steps = steps_layout.getEditText().getText().toString().trim();
 
         butt_addIn.setOnClickListener(new View.OnClickListener() {
             @Override
