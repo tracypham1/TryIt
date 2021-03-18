@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.content.Intent;
+import android.view.MenuItem;
 
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -48,8 +49,6 @@ public class MainActivity extends AppCompatActivity {
             postButton.setOnClickListener(new View.OnClickListener () {
                 @Override
                 public void onClick(View v) {
-//                    auth.signOut();
-//                    startSignOut();
                     openPostRec();
                 }
             });
@@ -84,17 +83,27 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+            case R.id.action_signOut:
+                auth.signOut();
+                setContentView(R.layout.activity_sign_in);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
     public void openPostRec() {
         Intent intent = new Intent(this, PostRecipe.class);
         startActivity(intent);
     }
 
     public void startSignIn() {
-        Intent intent = new Intent(this, SignInActivity.class);
-        startActivity(intent);
-    }
-
-    public void startSignOut() {
         Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
     }

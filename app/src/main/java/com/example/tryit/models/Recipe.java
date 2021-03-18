@@ -18,7 +18,7 @@ public class Recipe {
     }
 
     public void addIngredient(Ingredient _ingredient) {
-        this.ingredients.add(_ingredient);
+        ingredients.add(_ingredient);
     }
 
 //    public String getName() {

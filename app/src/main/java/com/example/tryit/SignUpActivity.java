@@ -25,8 +25,8 @@ import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
-    String email, password, fName, lName;
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private String email, password, fName, lName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,12 +94,12 @@ public class SignUpActivity extends AppCompatActivity {
                             //add user to Firebase user collection
                             String userID = user.getUid();
                             Map<String, Object> usr = new HashMap<>();
-                            usr.put("userID", user.getUid());
+                            usr.put("userID", userID);
                             usr.put("email", user.getEmail());
                             usr.put("fName", fName);
                             usr.put("lName", lName);
 
-                            db.collection("users").document(user.getUid())
+                            db.collection("users").document(userID)
                                     .set(usr)
                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
