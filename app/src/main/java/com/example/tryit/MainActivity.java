@@ -36,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if(auth.getCurrentUser() == null) {
-            setContentView(R.layout.activity_sign_up);
-            startSignUp();
+            setContentView(R.layout.activity_sign_in);
+            startSignIn();
         } else {
             setContentView(R.layout.activity_main);
 
@@ -48,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
             postButton.setOnClickListener(new View.OnClickListener () {
                 @Override
                 public void onClick(View v) {
-                    openPostRec();
+                    auth.signOut();
+                    startSignOut();
+//                    openPostRec();
                 }
             });
 
@@ -87,8 +89,13 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void startSignUp() {
-        Intent intent = new Intent(this, SignUpActivity.class);
+    public void startSignIn() {
+        Intent intent = new Intent(this, SignInActivity.class);
+        startActivity(intent);
+    }
+
+    public void startSignOut() {
+        Intent intent = new Intent(this, SignInActivity.class);
         startActivity(intent);
     }
 }

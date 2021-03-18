@@ -6,10 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".SignUpActivity">
 
+    <Button
+        android:id="@+id/butt_sign_in_anon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In Anon"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.108" />
+
+    <Button
+        android:id="@+id/butt_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign In"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.663" />
+
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_email_text_layout"
+        android:id="@+id/email_text_layout"
         android:layout_width="321dp"
         android:layout_height="100dp"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -17,36 +41,35 @@
         app:layout_constraintVertical_bias="0.313">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/create_email_input"
+            android:id="@+id/email_input"
             android:layout_width="307dp"
             android:layout_height="54dp"
             android:hint="Email" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_password_text_layout"
+        android:id="@+id/password_text_layout"
         android:layout_width="321dp"
         android:layout_height="100dp"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="351dp"
         app:passwordToggleEnabled="true"
         app:passwordToggleTint="@color/colorPrimary">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/create_password_input"
+            android:id="@+id/password_input"
             android:layout_width="307dp"
             android:layout_height="54dp"
             android:inputType="textPassword"
-            android:singleLine="true"
-            android:hint="Password" />
+            android:hint="Password"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/butt_create_account"
+        android:id="@+id/butt_sign_in_create_account"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create Account"
