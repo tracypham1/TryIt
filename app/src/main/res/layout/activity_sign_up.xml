@@ -7,14 +7,14 @@
     tools:context=".SignUpActivity">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_email_text_layout"
+        android:id="@+id/create_email_layout"
         android:layout_width="321dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.313">
+        app:layout_constraintVertical_bias="0.469">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/create_email_input"
@@ -24,25 +24,21 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/create_password_text_layout"
+        android:id="@+id/create_password_layout"
         android:layout_width="321dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="82dp"
-        tools:layout_editor_absoluteY="351dp"
-        app:passwordToggleEnabled="true"
-        app:passwordToggleTint="@color/colorPrimary">
+        app:layout_constraintVertical_bias="0.651">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/create_password_input"
             android:layout_width="307dp"
             android:layout_height="54dp"
-            android:inputType="textPassword"
-            android:singleLine="true"
-            android:hint="Password" />
+            android:hint="Password"
+            android:singleLine="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -55,5 +51,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.891" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/create_fName_layout"
+        android:layout_width="321dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.091">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/create_fName_input"
+            android:layout_width="307dp"
+            android:layout_height="54dp"
+            android:hint="First Name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/create_lName_layout"
+        android:layout_width="321dp"
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.274">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/create_lName_input"
+            android:layout_width="307dp"
+            android:layout_height="54dp"
+            android:hint="Last Name"/>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

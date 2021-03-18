@@ -29,7 +29,6 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         Button button_signIn = findViewById(R.id.butt_sign_in);
-        Button button_signInAnon = findViewById(R.id.butt_sign_in_anon);
         Button button_createAcc = findViewById(R.id.butt_sign_in_create_account);
 
         final TextInputLayout email_layout = findViewById(R.id.email_text_layout);
@@ -82,7 +81,6 @@ public class SignInActivity extends AppCompatActivity {
                             // Sign in success,
                             startHome();
                             System.out.println("signed in");
-                            FirebaseUser user = mAuth.getCurrentUser();
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(SignInActivity.this, "Incorrect email/password",
