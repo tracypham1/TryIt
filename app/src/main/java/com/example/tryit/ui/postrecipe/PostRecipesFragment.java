@@ -1,38 +1,52 @@
 package com.example.tryit.ui.postrecipe;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import android.widget.CheckBox;
+import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
-
 import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.Recipe;
 import com.google.android.material.textfield.TextInputLayout;
+import android.graphics.Color;
+import android.widget.Toast;
+import android.view.LayoutInflater;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
-// http://users.csc.calpoly.edu/~djanzen/android/shoppinglist.html
+import com.google.android.gms.tasks.OnSuccessListener;
+import androidx.annotation.NonNull;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.firebase.firestore.DocumentReference;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
 
 public class PostRecipesFragment extends Fragment {
-
     private PostRecipesViewModel postRecipesViewModel;
-    java.util.ArrayList<Ingredient> ingredients = new java.util.ArrayList<Ingredient>();
-    Recipe recipe = new Recipe();
 
+    private FirebaseAuth auth = FirebaseAuth.getInstance();
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private String ingName, ingUnit, ingAmount, recName, steps;
+    private Recipe recipe = new Recipe();
+
+    String userID = auth.getCurrentUser().getUid();
+
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+
         View root = inflater.inflate(R.layout.fragment_postrecipes, container, false);
 
-        Button butt_addIn = root.findViewById(R.id.button_add_in);
-        Button butt_postRec = root.findViewById(R.id.button_post_rec);
-        Button butt_saveRec = root.findViewById(R.id.button_save_rec);
+        final Button butt_addIn = root.findViewById(R.id.button_add_in);
+        final Button butt_postRec = root.findViewById(R.id.button_post_rec);
+        final Button butt_saveRec = root.findViewById(R.id.button_save_rec);
+        final CheckBox whole_checkbox = (CheckBox) root.findViewById(R.id.checkBox_whole);
 
         final TextInputLayout ingName_layout = root.findViewById(R.id.in_name_layout);
         final TextInputLayout ingUnit_layout = root.findViewById(R.id.unit_input_layout);
@@ -40,12 +54,71 @@ public class PostRecipesFragment extends Fragment {
         final TextInputLayout recName_layout = root.findViewById(R.id.rec_name_layout);
         final TextInputLayout steps_layout = root.findViewById(R.id.steps_layout);
 
+        butt_saveRec.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recName = recName_layout.getEditText().getText().toString().trim();
+                steps = steps_layout.getEditText().getText().toString().trim();
+
+                //add recipe to db
+                recipe.setName(recName);
+                recipe.setSteps(steps);
+
+                //set up ingredients map
+                Map<String, ArrayList> ingMap = new HashMap<>();
+                if(!recipe.getIngredients().isEmpty()) {
+                    for (Ingredient i: recipe.getIngredients()) {
+                        ArrayList list = new ArrayList<String>();
+                        list.add(String.valueOf(i.amount));
+                        list.add(i.unit);
+                        ingMap.put(i.name, list);
+                    }
+                }
+
+                //set up db map
+                Map<String, Object> rec = new HashMap<>();
+                rec.put("name", recName);
+                rec.put("steps", steps);
+                rec.put("ingredients", ingMap);
+
+                db.collection("users").document(userID).collection("drafts")
+                        .add(rec)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference> () {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                System.out.println("Draft Saved!");
+                                Toast.makeText(getActivity(), "Draft Saved!",
+                                        Toast.LENGTH_SHORT).show();
+
+                                //reset form
+                                recName_layout.getEditText().getText().clear();
+                                steps_layout.getEditText().getText().clear();
+                                ingName_layout.getEditText().getText().clear();
+                                ingAmt_layout.getEditText().getText().clear();
+                                ingUnit_layout.getEditText().getText().clear();
+                                whole_checkbox.setChecked(false);
+                                ingUnit_layout.getEditText().setEnabled(true);
+                                recipe = new Recipe();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Error Occurred! Try again.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+            }
+        });
+
+
         butt_addIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ingName = ingName_layout.getEditText().getText().toString();
-                String ingUnit = ingUnit_layout.getEditText().getText().toString();
-                String ingAmount = ingAmt_layout.getEditText().getText().toString();
+                ingName = ingName_layout.getEditText().getText().toString().trim();
+                if(!whole_checkbox.isChecked())    ingUnit = ingUnit_layout.getEditText().getText().toString().trim();
+                ingAmount = ingAmt_layout.getEditText().getText().toString().trim();
 
                 //if one of them is empty, display error message
                 int emptyCount = 0;
@@ -55,28 +128,36 @@ public class PostRecipesFragment extends Fragment {
                     ingName_layout.setError("Enter name");
                     ingName_layout.setErrorEnabled(true);
                     emptyCount++;
-                } else ingName_layout.setError(null);
+                } else  ingName_layout.setErrorEnabled(false);
 
-                if(ingUnit.isEmpty()) {
+                if(ingUnit.isEmpty() && !whole_checkbox.isChecked()) {
                     ingUnit_layout.setError("Enter unit");
                     ingUnit_layout.setErrorEnabled(true);
                     emptyCount++;
-                } else ingUnit_layout.setError(null);
+                } else  ingUnit_layout.setErrorEnabled(true);
 
                 if(ingAmount.isEmpty()) {
                     ingAmt_layout.setError("Enter amount");
                     ingAmt_layout.setErrorEnabled(true);
                     emptyCount++;
-                }  else {
-                    ingAmt_layout.setError(null);
+                } else  {
                     amount = Double.parseDouble(ingAmount);
+                    ingAmt_layout.setErrorEnabled(false);
                 }
 
                 if(emptyCount == 0) {
                     Ingredient ing = new Ingredient(ingName, ingUnit, amount);
                     recipe.addIngredient(ing);
+                    Toast.makeText(getActivity(), "Ingredient Added",
+                            Toast.LENGTH_SHORT).show();
                 }
 
+                //reset form
+                ingName_layout.getEditText().getText().clear();
+                ingAmt_layout.getEditText().getText().clear();
+                ingUnit_layout.getEditText().getText().clear();
+                whole_checkbox.setChecked(false);
+                ingUnit_layout.getEditText().setEnabled(true);
 
             }
         });
@@ -84,10 +165,8 @@ public class PostRecipesFragment extends Fragment {
         butt_postRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String ingName = ingName_layout.getEditText().getText().toString();
-                String recName = recName_layout.getEditText().getText().toString();
-                String steps = steps_layout.getEditText().getText().toString();
+                recName = recName_layout.getEditText().getText().toString().trim();
+                steps = steps_layout.getEditText().getText().toString().trim();
 
                 int emptyCount = 0;
 
@@ -95,31 +174,86 @@ public class PostRecipesFragment extends Fragment {
                     recName_layout.setError("Enter name");
                     recName_layout.setErrorEnabled(true);
                     emptyCount++;
-                } else if(recName.startsWith(" ")) {
-                    recName_layout.setError("Cannot start with a space");
-                    recName_layout.setErrorEnabled(true);
-                    emptyCount++;
-                } else recName_layout.setError(null);
+                } else recName_layout.setErrorEnabled(false);
 
                 if(steps.isEmpty()) {
                     steps_layout.setError("Enter instructions");
                     steps_layout.setErrorEnabled(true);
                     emptyCount++;
-                } else steps_layout.setError(null);
+                } else steps_layout.setErrorEnabled(false);
 
                 if(emptyCount == 0 && !recipe.getIngredients().isEmpty()) {
+                    butt_addIn.setBackgroundColor(Color.parseColor("#cccccc"));
+                    butt_addIn.setTextColor(Color.BLACK);
+
+                    ingName_layout.setErrorEnabled(false);
+                    ingUnit_layout.setErrorEnabled(false);
+                    ingAmt_layout.setErrorEnabled(false);
+                    recName_layout.setErrorEnabled(false);
+                    steps_layout.setErrorEnabled(false);
+
+                    //add recipe to db
                     recipe.setName(recName);
                     recipe.setSteps(steps);
+
+                    //set up ingredients map
+                    Map<String, ArrayList> ingMap = new HashMap<>();
+                    for (Ingredient i: recipe.getIngredients()) {
+                        ArrayList list = new ArrayList<String>();
+                        list.add(String.valueOf(i.amount));
+                        list.add(i.unit);
+                        ingMap.put(i.name, list);
+                    }
+
+                    //set up db map
+                    Map<String, Object> rec = new HashMap<>();
+                    rec.put("name", recName);
+                    rec.put("steps", steps);
+                    rec.put("ingredients", ingMap);
+
+                    db.collection("recipes")
+                            .add(rec)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference> () {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference) {
+                                    System.out.println("Recipe Posted!");
+                                    Toast.makeText(getActivity(), "Recipe Posted!",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    //reset form
+                                    recName_layout.getEditText().getText().clear();
+                                    steps_layout.getEditText().getText().clear();
+                                    ingName_layout.getEditText().getText().clear();
+                                    ingAmt_layout.getEditText().getText().clear();
+                                    ingUnit_layout.getEditText().getText().clear();
+                                    whole_checkbox.setChecked(false);
+                                    ingUnit_layout.getEditText().setEnabled(true);
+                                    recipe = new Recipe();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), "Error Occurred! Try again.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
                 } else {
-                    ingName_layout.setError("Add an ingredient");
-                    ingName_layout.setErrorEnabled(true);
-
-                    ingUnit_layout.setError("Add an ingredient");
-                    ingUnit_layout.setErrorEnabled(true);
-
-                    ingAmt_layout.setError("Add an ingredient");
-                    ingAmt_layout.setErrorEnabled(true);
+                    butt_addIn.setBackgroundColor(Color.parseColor("#dc143c"));
+                    butt_addIn.setTextColor(Color.WHITE);
                 }
+
+            }
+        });
+
+        whole_checkbox.setOnClickListener(new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                if(whole_checkbox.isChecked()) {
+                    ingUnit_layout.getEditText().setEnabled(false);
+                    ingUnit = "whole";
+                } else ingUnit_layout.getEditText().setEnabled(true);
             }
         });
 

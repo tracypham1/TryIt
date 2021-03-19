@@ -15,6 +15,12 @@ public class Recipe {
         steps = _steps;
     }
 
+    public Recipe(String _name, String _ingredients, String _steps) {
+        name = _name;
+        ing = _ingredients;
+        steps = _steps;
+    }
+
     //toString necessary for printing object information
     @Override
     public String toString() {

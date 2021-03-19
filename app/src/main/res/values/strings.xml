@@ -23,6 +23,8 @@
     <string name="draftrecipe_directions">Directions</string>
     <string name="type_here">Type Here</string>
     <string name="save_button">Save</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

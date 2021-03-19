@@ -1,10 +1,6 @@
 package com.example.tryit;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -23,9 +19,7 @@ import android.view.Menu;
 import android.content.Intent;
 import android.view.MenuItem;
 
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,14 +39,6 @@ public class MainActivity extends AppCompatActivity {
 
             Toolbar toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
-
-            FloatingActionButton postButton =findViewById(R.id.button_post);
-            postButton.setOnClickListener(new View.OnClickListener () {
-                @Override
-                public void onClick(View v) {
-                    openPostRec();
-                }
-            });
 
             DrawerLayout drawer = findViewById(R.id.drawer_layout);
             NavigationView navigationView = findViewById(R.id.nav_view);
@@ -97,11 +83,6 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void openPostRec() {
-        Intent intent = new Intent(this, PostRecipe.class);
-        startActivity(intent);
     }
 
     public void startSignIn() {
