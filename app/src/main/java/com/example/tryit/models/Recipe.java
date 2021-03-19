@@ -14,11 +14,6 @@ public class Recipe {
         ingredients = _ingredients;
         steps = _steps;
     }
-    public Recipe(String _name, String _ingredients, String _steps) {
-        name = _name;
-        ing = _ingredients;
-        steps = _steps;
-    }
 
     //toString necessary for printing object information
     @Override
@@ -58,17 +53,4 @@ public class Recipe {
         this.ingredients.add(_ingredient);
     }
 
-
-
-//    public String getName() {
-//        return this.name;
-//    }
-//
-//    public ArrayList<Ingredient> getIngredients() {
-//        return this.ingredients;
-//    }
-//
-//    public ArrayList<String> steps() {
-//        return this.steps;
-//    }
 }
