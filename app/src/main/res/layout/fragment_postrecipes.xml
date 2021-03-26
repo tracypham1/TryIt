@@ -116,6 +116,7 @@
         android:layout_width="254dp"
         android:layout_height="49dp"
         android:hint="Recipe Name"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
@@ -126,13 +127,15 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/rec_name_input"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/in_name_layout"
         android:layout_width="247dp"
         android:layout_height="64dp"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.097"
@@ -145,6 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Ingredient Name"
+            android:singleLine="true"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -152,6 +156,7 @@
         android:id="@+id/unit_input_layout"
         android:layout_width="213dp"
         android:layout_height="64dp"
+        android:maxLines="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.06"
@@ -164,6 +169,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint='Unit of Measure (i.e. "oz")'
+            android:singleLine="true"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -171,6 +177,7 @@
         android:id="@+id/amount_input_layout"
         android:layout_width="129dp"
         android:layout_height="59dp"
+        android:maxLines="1"
         app:layout_constraintHorizontal_bias="0.042"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -184,6 +191,7 @@
             android:layout_height="46dp"
             android:hint="Amount"
             android:inputType="numberDecimal"
+            android:singleLine="true"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 

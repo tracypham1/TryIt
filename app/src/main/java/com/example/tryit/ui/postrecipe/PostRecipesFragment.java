@@ -31,7 +31,7 @@ public class PostRecipesFragment extends Fragment {
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private String ingName, ingUnit, ingAmount, recName, steps;
+    private String ingName, ingUnit, ingAmount, recName, steps, docID;
     private Recipe recipe = new Recipe();
 
     String userID = auth.getCurrentUser().getUid();
@@ -206,7 +206,7 @@ public class PostRecipesFragment extends Fragment {
                     }
 
                     //set up db map
-                    Map<String, Object> rec = new HashMap<>();
+                    final Map<String, Object> rec = new HashMap<>();
                     rec.put("name", recName);
                     rec.put("steps", steps);
                     rec.put("ingredients", ingMap);
@@ -219,6 +219,25 @@ public class PostRecipesFragment extends Fragment {
                                     System.out.println("Recipe Posted!");
                                     Toast.makeText(getActivity(), "Recipe Posted!",
                                             Toast.LENGTH_SHORT).show();
+
+                                    //get docID
+                                    docID = documentReference.getId();
+
+                                    //upload recipe to user's 'posts' collection
+                                    db.collection("users").document(userID).collection("posts")
+                                            .document(docID).set(rec)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    System.out.println("Recipe added to user's posts");
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    System.out.println("Recipe failed to add to user's posts");
+                                                }
+                                            });
 
                                     //reset form
                                     recName_layout.getEditText().getText().clear();
