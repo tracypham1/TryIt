@@ -1,29 +1,30 @@
 package com.example.tryit.ui.postrecipe;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.view.ViewGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+
 import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.Recipe;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
-import android.graphics.Color;
-import android.widget.Toast;
-import android.view.LayoutInflater;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import androidx.annotation.NonNull;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.firestore.DocumentReference;
-
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 public class PostRecipesFragment extends Fragment {
     private PostRecipesViewModel postRecipesViewModel;
@@ -146,7 +147,7 @@ public class PostRecipesFragment extends Fragment {
                 }
 
                 if(emptyCount == 0) {
-                    Ingredient ing = new Ingredient(ingName, ingUnit, amount);
+                    Ingredient ing = new Ingredient(ingName, ingUnit, amount,ingName);
                     recipe.addIngredient(ing);
                     Toast.makeText(getActivity(), "Ingredient Added",
                             Toast.LENGTH_SHORT).show();

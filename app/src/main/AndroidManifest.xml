@@ -5,6 +5,8 @@
 
     <dist:module dist:instant="true" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="androidx.multidex.MultiDexApplication"
         android:allowBackup="true"
@@ -14,18 +16,26 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".Recipe_Activity"
+            android:label="@string/title_activity_recipe_"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".SearchResultsActivity"
+            android:label="@string/title_activity_search_results"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
             android:name=".SignUpActivity"
             android:noHistory="true"
-            android:parentActivityName=".SignInActivity"/>
+            android:parentActivityName=".SignInActivity" />
         <activity
             android:name=".SignInActivity"
             android:noHistory="true" />
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:noHistory="true"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustPan"
-            android:noHistory="true">
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
