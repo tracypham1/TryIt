@@ -4,10 +4,15 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ListView;
+
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -30,11 +35,12 @@ import java.util.List;
 public class DraftRecipeFragment extends Fragment {
 
     private DraftRecipeViewModel draftRecipeViewModel;
+    SQLDraftsDbHelper draftsDbHelper;
 
     //reference to buttons and controls
-    Button btn_add_ing, btn_save;
+    Button btn_add_ing, btn_save, btn_view_drafts;
     TextInputLayout in_rec_name, in_ing_name, in_ing_amt, in_ing_unit, in_directions;
-    RecyclerView rv_drafts;
+    ListView rv_drafts;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +51,7 @@ public class DraftRecipeFragment extends Fragment {
         //assign the references to the xml widgets
         btn_add_ing = root.findViewById(R.id.dr_button_add_in);
         btn_save = root.findViewById(R.id.dr_button_save);
+        btn_view_drafts = root.findViewById(R.id.dr_view_drafts);
         in_rec_name = root.findViewById(R.id.dr_rec_name_layout);
         in_ing_name = root.findViewById(R.id.dr_in_name_layout);
         in_ing_amt = root.findViewById(R.id.dr_amount_input_layout);
@@ -145,17 +152,19 @@ public class DraftRecipeFragment extends Fragment {
                     in_ing_amt.setError(null);
                     in_ing_unit.setError(null);
 
-                    Toast.makeText(getActivity(),"Draft Saved!", Toast.LENGTH_SHORT).show();
+                    //add to recipe object and dp
+                    recipe.setName(recName);
+                    recipe.setSteps(steps)  ;
 
-
-
-                    //add to dp
                     boolean success = sqlDraftsDbHelper.addOne(recipe);
-                    Toast.makeText(getActivity(),"Success = " + success, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getActivity(),"Success = " + success, Toast.LENGTH_SHORT).show();
 
                     // show everything in db atm in toast
                     List<Recipe> allRecipes = sqlDraftsDbHelper.getAll();
-                    Toast.makeText(getActivity(), allRecipes.toString(), Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), allRecipes.toString(), Toast.LENGTH_LONG).show();
+
+                    // final draft saved
+                    Toast.makeText(getActivity(),"Draft Saved!", Toast.LENGTH_SHORT).show();
 
                     // else keep telling user there is an error
                 } else {
@@ -186,9 +195,40 @@ public class DraftRecipeFragment extends Fragment {
                     Toast.makeText(getActivity(),"Draft Incomplete (Ingredients Not Added)!", Toast.LENGTH_SHORT).show();
 
                     // show everything in db atm in toast
-                    List<Recipe> allRecipes = sqlDraftsDbHelper.getAll();
-                    Toast.makeText(getActivity(), allRecipes.toString(), Toast.LENGTH_LONG).show();
+                    // List<Recipe> allRecipes = sqlDraftsDbHelper.getAll();
+                    // Toast.makeText(getActivity(), allRecipes.toString(), Toast.LENGTH_LONG).show();
                 }
+            }
+        });
+
+
+        btn_view_drafts.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                draftsDbHelper = new SQLDraftsDbHelper(getActivity());
+                List<Recipe> drafts = draftsDbHelper.getAll();
+
+                ArrayAdapter draftsArrayAdapter = new ArrayAdapter<Recipe>(getActivity(), android.R.layout.simple_list_item_1, drafts);
+                rv_drafts.setAdapter(draftsArrayAdapter);
+
+            }
+        });
+
+        rv_drafts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Recipe clickedRecipe = (Recipe) parent.getItemAtPosition(position);
+                draftsDbHelper.deleteOne(clickedRecipe);
+
+                //display new list
+                List<Recipe> drafts = draftsDbHelper.getAll();
+
+                ArrayAdapter draftsArrayAdapter = new ArrayAdapter<Recipe>(getActivity(), android.R.layout.simple_list_item_1, drafts);
+                rv_drafts.setAdapter(draftsArrayAdapter);
+
+                //toast
+                Toast.makeText(getActivity(), "Deleted " + clickedRecipe.toString(),Toast.LENGTH_SHORT);
             }
         });
 
