@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/recipe_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="10dp">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/recipe_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/recipe_name_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="checking 1 checking 1 checking 1 checking 1 checking 1 checking 1 checking 1 checking 1 "
+        android:textColor="#E11010" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/recipe_ingr_textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="checking 2" />
+
+</LinearLayout>
