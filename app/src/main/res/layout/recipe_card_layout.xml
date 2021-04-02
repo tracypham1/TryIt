@@ -20,14 +20,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="checking 1 checking 1 checking 1 checking 1 checking 1 checking 1 checking 1 checking 1 "
-        android:textColor="#E11010" />
+        android:text="Recipe Name"
+        android:textColor="#696969"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/recipe_ingr_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:text="checking 2" />
+        android:text="Recipe Ingredients"
+        android:textColor="#A9A9A9"
+        android:textSize="16sp" />
 
 </LinearLayout>

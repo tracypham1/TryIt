@@ -37,7 +37,6 @@ class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder
 
         public void bindTo(Recipe recipe) {
             recName.setText(recipe.getName());
-            recName.setTextColor(Color.BLUE);
 
             String ingredientsString = "";
             ArrayList<String> ingredientArr = new ArrayList<String>();
@@ -50,7 +49,6 @@ class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder
                 else ingredientsString += i + ", ";
             }
             recIng.setText(ingredientsString);
-            recIng.setTextColor(Color.BLUE);
 //            card.setOnClickListener((View item) -> {
 //                Context context = item.getContext();
 //                Intent i = new Intent(context, NoteActivity.class);
@@ -86,17 +84,13 @@ class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder
                 public boolean areItemsTheSame(
                         @NonNull Recipe oldRecipe, @NonNull Recipe newRecipe) {
 
-                    if(oldRecipe.getName() == newRecipe.getName()) return true;
-                    else if(oldRecipe.getIngredients() == newRecipe.getIngredients()) return true;
-                    else if(oldRecipe.getSteps() == newRecipe.getSteps()) return true;
+                    if(oldRecipe.getDocID() == newRecipe.getDocID()) return true;
                     else return false;
                 }
                 @Override
                 public boolean areContentsTheSame(
                         @NonNull Recipe oldRecipe, @NonNull Recipe newRecipe) {
-                    if(oldRecipe.getName().equals(newRecipe.getName())) return true;
-                    else if(oldRecipe.getIngredients().equals(newRecipe.getIngredients())) return true;
-                    else if(oldRecipe.getSteps().equals(newRecipe.getSteps())) return true;
+                    if(oldRecipe.getDocID().equals(newRecipe.getDocID())) return true;
                     else return false;
                 }
             };
