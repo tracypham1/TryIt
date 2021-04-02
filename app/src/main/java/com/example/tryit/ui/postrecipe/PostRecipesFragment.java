@@ -206,6 +206,7 @@ public class PostRecipesFragment extends Fragment {
                         ingMap.put(i.name, list);
                     }
 
+                    //-------------------------TRACY INCLUDE THIS vv------------------------------------
                     //set up db map
                     final Map<String, Object> rec = new HashMap<>();
                     rec.put("name", recName);
@@ -230,6 +231,7 @@ public class PostRecipesFragment extends Fragment {
                                 } catch(ArithmeticException e) {
                                     System.out.println("Couldn't save to drafts");
                                 }
+                    //----------------------------------------------------------------------------
 
                                 //reset form
                                 recName_layout.getEditText().getText().clear();
