@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.recipeExpanded.RecipeExpandedActivity"
-            android:parentActivityName=".MainActivity"/>
-        <activity
             android:name=".SignUpActivity"
             android:noHistory="true"
             android:parentActivityName=".SignInActivity" />
