@@ -18,7 +18,7 @@ public class ShoppingListViewModel extends ViewModel {
 
     public ShoppingListViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is shopping list fragment");
+        mText.setValue("Enter Ingredients to Your List:");
     }
 
     public LiveData<String> getText() {
