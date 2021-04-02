@@ -1,20 +1,17 @@
 package com.example.tryit.ui.postrecipe;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.view.ViewGroup;
 
-import androidx.activity.result.ActivityResultCallback;
 import androidx.fragment.app.Fragment;
 import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.Recipe;
 import com.google.android.material.textfield.TextInputLayout;
 import android.graphics.Color;
-import android.widget.ImageView;
 import android.widget.Toast;
 import android.view.LayoutInflater;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,49 +20,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
-import android.content.Intent;
-import android.provider.MediaStore;
-
-import androidx.core.content.ContextCompat;
-import android.content.pm.PackageManager;
-import android.Manifest;
-import androidx.core.app.ActivityCompat;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts.GetContent;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-
-import android.content.ActivityNotFoundException;
-import android.graphics.Bitmap;
-import androidx.activity.result.ActivityResultRegistry;
-import androidx.activity.result.contract.ActivityResultContracts.TakePicturePreview;
-import java.io.File;
-import android.os.Environment;
-
-import static androidx.core.content.ContextCompat.getExternalFilesDirs;
-
 public class PostRecipesFragment extends Fragment {
-    private PostRecipesViewModel postRecipesViewModel;
-    private ImageView rec_imageView;
-    private Button butt_picture;
-    private int CAMERA_PERMISSION_CODE = 1;
-    private int CAMERA_REQUEST_CODE = 2;
 
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private String imageName = "recipe_image";
-
-    private String ingName, ingUnit, ingAmount, recName, steps, docID;
+    private String ingName, ingUnit, ingAmount, recName, steps;
     private Recipe recipe = new Recipe();
 
     String userID = auth.getCurrentUser().getUid();
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -73,8 +41,6 @@ public class PostRecipesFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_postrecipes, container, false);
 
-        rec_imageView = root.findViewById(R.id.rec_image);
-        butt_picture = root.findViewById(R.id.button_take_pic);
         final Button butt_addIn = root.findViewById(R.id.button_add_in);
         final Button butt_postRec = root.findViewById(R.id.button_post_rec);
         final Button butt_saveRec = root.findViewById(R.id.button_save_rec);
@@ -302,30 +268,6 @@ public class PostRecipesFragment extends Fragment {
             }
         });
 
-        butt_picture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                takePicture();
-            }
-        });
-
         return root;
-    }
-
-    private void takePicture() {
-        File storageDir = new File(String.valueOf(Environment.getExternalStorageDirectory()));
-        File newFile = new File(imageName, ".jpg");
-//        try {
-//            newFile = File.createTempFile(imageName, ".jpg", storageDir);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            System.out.println("error was: " + e.toString());
-//            System.out.println("didn't work");
-//        }
-        ActivityCompat.requestPermissions(getActivity(), new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, PackageManager.PERMISSION_GRANTED);
-        Intent cameraIntent = new  Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(newFile));
-        startActivity(cameraIntent);
-
     }
 }
