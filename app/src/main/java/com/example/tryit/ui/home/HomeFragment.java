@@ -32,9 +32,9 @@ import com.example.tryit.models.Recipe;
 import android.widget.LinearLayout;
 import android.widget.ImageView;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 
 public class HomeFragment extends Fragment {
-    //posts from DB
     private ArrayList<Recipe> posts = new ArrayList<Recipe>();
     private RecyclerView homeRecView;
     private RecipesAdapter adapter;
