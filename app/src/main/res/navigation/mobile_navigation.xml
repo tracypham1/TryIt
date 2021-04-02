@@ -11,6 +11,12 @@
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
+    <activity
+        android:id="@+id/recExpanded"
+        android:name="com.example.tryit.ui.recipeExpanded.RecipeExpandedActivity"
+        android:label="Recipe Expanded"
+        tools:layout="@layout/activity_recipe_expanded" />
+
     <fragment
         android:id="@+id/nav_generatedrecipes"
         android:name="com.example.tryit.ui.generatedrecipes.GeneratedRecipesFragment"

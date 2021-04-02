@@ -15,24 +15,22 @@ import java.util.ArrayList;
 import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.Recipe;
-import android.widget.ImageView;
+
 import android.widget.LinearLayout;
-import android.graphics.Color;
 
 class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder> {
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
-
+        private Context mContext;
         public TextView recName, recIng;
-        public ImageView recImage;
         public LinearLayout card;
 
-        public RecipeViewHolder(@NonNull View itemView) {
+        public RecipeViewHolder(Context context, @NonNull View itemView) {
             super(itemView);
             recName = itemView.findViewById(R.id.recipe_name_textView);
             recIng = itemView.findViewById(R.id.recipe_ingr_textView);
-            recImage = itemView.findViewById(R.id.recipe_imageView);
             card = itemView.findViewById(R.id.recipe_cardView);
+            mContext = context;
         }
 
         public void bindTo(Recipe recipe) {
@@ -49,13 +47,6 @@ class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder
                 else ingredientsString += i + ", ";
             }
             recIng.setText(ingredientsString);
-//            card.setOnClickListener((View item) -> {
-//                Context context = item.getContext();
-//                Intent i = new Intent(context, NoteActivity.class);
-//                i.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-//                i.putExtra("uuid", note.uuid); //need this to pass in recipe docID, change other func to store docID in recipe object
-//                context.startActivity(i);
-//            });
         }
     }
 
@@ -66,10 +57,9 @@ class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View itemView = inflater.inflate(R.layout.recipe_card_layout, parent, false);
-        RecipeViewHolder viewHolder = new RecipeViewHolder(itemView);
+        RecipeViewHolder viewHolder = new RecipeViewHolder(parent.getContext(), itemView);
         return viewHolder;
     }
 

@@ -3,8 +3,6 @@
     xmlns:dist="http://schemas.android.com/apk/distribution"
     package="com.example.tryit">
 
-    <uses-feature android:name="android.hardware.camera" />
-
     <dist:module dist:instant="true" />
 
     <application
@@ -15,6 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".ui.recipeExpanded.RecipeExpandedActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".SignUpActivity"
             android:noHistory="true"
