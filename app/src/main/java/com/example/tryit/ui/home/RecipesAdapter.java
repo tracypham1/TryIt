@@ -22,13 +22,14 @@ class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder
 
     public class RecipeViewHolder extends RecyclerView.ViewHolder {
         private Context mContext;
-        public TextView recName, recIng;
+        public TextView recName, recIng, recSteps;
         public LinearLayout card;
 
         public RecipeViewHolder(Context context, @NonNull View itemView) {
             super(itemView);
             recName = itemView.findViewById(R.id.recipe_name_textView);
             recIng = itemView.findViewById(R.id.recipe_ingr_textView);
+            recSteps = itemView.findViewById(R.id.recipe_steps_textView);
             card = itemView.findViewById(R.id.recipe_cardView);
             mContext = context;
         }
@@ -42,11 +43,33 @@ class RecipesAdapter extends ListAdapter<Recipe, RecipesAdapter.RecipeViewHolder
 
             for(int j = 0; j < ing_size; j++) {
                 Ingredient ingredient = recipe.getIngredients().get(j);
+
                 String i = Character.toUpperCase(ingredient.name.charAt(0)) + ingredient.name.substring(1);
-                if(j == (ing_size - 1)) ingredientsString += i;
-                else ingredientsString += i + ", ";
+//                if(j == (ing_size - 1)) ingredientsString += i;
+                ingredientsString += i + " (" + ingredient.amount + " " + ingredient.unit + ")\n";
             }
             recIng.setText(ingredientsString);
+
+            String steps = "Instructions:\n" + recipe.getSteps();
+//            int stepNum = 1;
+//            int step_size = recipe.getSteps().length();
+//            String s = recipe.getSteps();
+//            int first = 0;
+//            int last = 0;
+//            for(int i = 0; i < step_size; i++) {
+//                String formatted = "";
+//                if(s.charAt(i) == '\n') {
+//                    last = i - 1;
+//                    formatted = s.substring(first, last);
+//
+//                    steps += stepNum++ + ". " + formatted + "\n";
+//                    first = i + 1;
+//                }
+//
+//                if( i == (step_size - 1) && first == 0) steps += s;
+//
+//            }
+            recSteps.setText(steps);
         }
     }
 

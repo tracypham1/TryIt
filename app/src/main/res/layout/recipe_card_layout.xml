@@ -5,27 +5,37 @@
     android:id="@+id/recipe_cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
     android:layout_gravity="center"
+    android:layout_marginBottom="20dp"
+    android:background="#B3E6D0"
     android:gravity="center"
+    android:orientation="horizontal"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="20dp">
+    android:paddingTop="20dp"
+    android:paddingRight="10dp">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/recipe_imageView"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:src="@drawable/ic_baseline_food_bank_24"
-        android:layout_marginRight="20dp"
-        android:gravity="center" />
+    <LinearLayout
+        android:id="@+id/rec_image_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/recipe_imageView"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_food_bank_white_24" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/rec_info_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="left">
+        android:gravity="left"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/recipe_name_textView"
@@ -34,7 +44,7 @@
             android:layout_marginBottom="10dp"
             android:text="Recipe Name"
             android:textColor="#696969"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -43,8 +53,18 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="Recipe Ingredients"
+            android:textColor="#343434"
+            android:textSize="20sp" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/recipe_steps_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="Recipe Steps"
             android:textColor="#A9A9A9"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
+
     </LinearLayout>
 
 </LinearLayout>
