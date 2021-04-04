@@ -1,6 +1,7 @@
 package com.example.tryit.ui.draftrecipe;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ListView;
 
+import java.util.Collection;
+import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -38,6 +41,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class DraftRecipeFragment extends Fragment {
 
@@ -117,6 +121,11 @@ public class DraftRecipeFragment extends Fragment {
                     in_ing_name.setError(null);
                     in_ing_amt.setError(null);
                     in_ing_unit.setError(null);
+
+                    in_ing_name.getEditText().getText().clear();
+                    in_ing_unit.getEditText().getText().clear();
+                    in_ing_amt.getEditText().getText().clear();
+
                     Toast.makeText(getActivity(),"Ingredient Added!", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -167,6 +176,7 @@ public class DraftRecipeFragment extends Fragment {
                     recipe.setSteps(steps)  ;
 
                     boolean success = sqlDraftsDbHelper.addOne(recipe);
+                    Log.d("parse", "save_rec() -- recipe.getIngredient = \n" + recipe.getIngredients());
 
                     // show everything in db atm in toast
                     List<Recipe> allRecipes = sqlDraftsDbHelper.getAll();
@@ -178,8 +188,8 @@ public class DraftRecipeFragment extends Fragment {
                     in_rec_name.getEditText().getText().clear();
                     in_directions.getEditText().getText().clear();
                     in_ing_name.getEditText().getText().clear();
-                    in_ing_amt.getEditText().getText().clear();
                     in_ing_unit.getEditText().getText().clear();
+                    in_ing_amt.getEditText().getText().clear();
 
                     //show list
                     draftsDbHelper = new SQLDraftsDbHelper(getActivity());
@@ -289,8 +299,110 @@ public class DraftRecipeFragment extends Fragment {
                         final Map<String, Object> rec = new HashMap<>();
                         rec.put("name", clickedRecipe.getName());
                         rec.put("steps", clickedRecipe.getSteps());
-                        rec.put("ingredients", clickedRecipe.getIng());
 
+                        //parse the ingredient string before put in Firebase
+//                        Log.d("parseIng", clickedRecipe.getIng());
+                        Map<String, ArrayList<String>> fb_ingredients = new Map<String, ArrayList<String>>() {
+                            @Override
+                            public int size() {
+                                return 0;
+                            }
+
+                            @Override
+                            public boolean isEmpty() {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean containsKey(@Nullable Object key) {
+                                return false;
+                            }
+
+                            @Override
+                            public boolean containsValue(@Nullable Object value) {
+                                return false;
+                            }
+
+                            @Nullable
+                            @Override
+                            public ArrayList<String> get(@Nullable Object key) {
+                                return null;
+                            }
+
+                            @Nullable
+                            @Override
+                            public ArrayList<String> put(String key, ArrayList<String> value) {
+                                return null;
+                            }
+
+                            @Nullable
+                            @Override
+                            public ArrayList<String> remove(@Nullable Object key) {
+                                return null;
+                            }
+
+                            @Override
+                            public void putAll(@NonNull Map<? extends String, ? extends ArrayList<String>> m) {
+
+                            }
+
+                            @Override
+                            public void clear() {
+
+                            }
+
+                            @NonNull
+                            @Override
+                            public Set<String> keySet() {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Collection<ArrayList<String>> values() {
+                                return null;
+                            }
+
+                            @NonNull
+                            @Override
+                            public Set<Entry<String, ArrayList<String>>> entrySet() {
+                                return null;
+                            }
+                        };
+                        StringBuffer all_ingredients = new StringBuffer(clickedRecipe.getIng());
+                        Log.d("parIng", "allIng == " + all_ingredients);
+
+                        int next_ing = 1;
+                        while(next_ing > 0){
+                            //get first quote
+                            String temp_name = all_ingredients.substring(all_ingredients.indexOf("(")+1, all_ingredients.indexOf(")"));
+                            all_ingredients.replace(all_ingredients.indexOf("("), all_ingredients.indexOf(")")+1, "");
+                            Log.d("parIng", "allIng_after_name == " + all_ingredients);
+
+                            String temp_unit = all_ingredients.substring(all_ingredients.indexOf("(")+1, all_ingredients.indexOf(")"));
+                            all_ingredients.replace(all_ingredients.indexOf("("), all_ingredients.indexOf(")")+1, "");
+
+                            String temp_amt = all_ingredients.substring(all_ingredients.indexOf("(")+1, all_ingredients.indexOf(")"));
+                            all_ingredients.replace(all_ingredients.indexOf("("), all_ingredients.indexOf(")")+1, "");
+
+                            Log.d("parIng"," -- name amt unit -- " + temp_name + temp_amt + temp_unit + "\n");
+
+                            //add to map to send to firebsae
+                            ArrayList<String> temp_ing_info = new ArrayList<String>();
+                            temp_ing_info.add(temp_amt);
+                            temp_ing_info.add(temp_unit);
+                            fb_ingredients.put(temp_name, temp_ing_info);
+
+                            //get next one
+                            next_ing = all_ingredients.indexOf("name=(");
+                            Log.d("fb_rec", temp_ing_info.get(0));
+
+                        }
+
+                        rec.put("ingredients", fb_ingredients);
+//                        rec.put("ingredients", clickedRecipe.getIng());
+
+                        //put the recipe into firebase
                         final String uploadID = db.collection("recipes").document().getId();
                         rec.put("docID", uploadID);
 

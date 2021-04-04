@@ -21,12 +21,12 @@ public class Ingredient {
 
     @Override
     public String toString() {
-//        return "\nIngredient{" +
-//                "name='" + name + '\'' +
-//                ", unit='" + unit + '\'' +
-//                ", amount=" + amount +
-//                '}';
-        return name;
+        return "\nIngredient{" +
+                "name=(" + name + ')' +
+                ", unit=(" + unit + ')' +
+                ", amount=(" + amount +
+                ")}\n";
+//        return name;
     }
 
     public String getName() {
