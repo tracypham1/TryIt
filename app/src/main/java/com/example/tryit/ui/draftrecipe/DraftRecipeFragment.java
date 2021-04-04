@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,10 +29,15 @@ import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.Recipe;
 import com.example.tryit.models.SQLDraftsDbHelper;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DraftRecipeFragment extends Fragment {
 
@@ -41,6 +48,9 @@ public class DraftRecipeFragment extends Fragment {
     Button btn_add_ing, btn_save, btn_view_drafts;
     TextInputLayout in_rec_name, in_ing_name, in_ing_amt, in_ing_unit, in_directions;
     ListView rv_drafts;
+
+    //popup window
+    Button btn_cancel, btn_post, btn_delete;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -157,14 +167,26 @@ public class DraftRecipeFragment extends Fragment {
                     recipe.setSteps(steps)  ;
 
                     boolean success = sqlDraftsDbHelper.addOne(recipe);
-//                    Toast.makeText(getActivity(),"Success = " + success, Toast.LENGTH_SHORT).show();
 
                     // show everything in db atm in toast
                     List<Recipe> allRecipes = sqlDraftsDbHelper.getAll();
-//                    Toast.makeText(getActivity(), allRecipes.toString(), Toast.LENGTH_LONG).show();
+                    //Toast.makeText(getActivity(), allRecipes.toString(), Toast.LENGTH_LONG).show();
 
                     // final draft saved
                     Toast.makeText(getActivity(),"Draft Saved!", Toast.LENGTH_SHORT).show();
+
+                    in_rec_name.getEditText().getText().clear();
+                    in_directions.getEditText().getText().clear();
+                    in_ing_name.getEditText().getText().clear();
+                    in_ing_amt.getEditText().getText().clear();
+                    in_ing_unit.getEditText().getText().clear();
+
+                    //show list
+                    draftsDbHelper = new SQLDraftsDbHelper(getActivity());
+                    List<Recipe> drafts = draftsDbHelper.getAll();
+
+                    ArrayAdapter draftsArrayAdapter = new ArrayAdapter<Recipe>(getActivity(), android.R.layout.simple_list_item_1, drafts);
+                    rv_drafts.setAdapter(draftsArrayAdapter);
 
                     // else keep telling user there is an error
                 } else {
@@ -217,18 +239,91 @@ public class DraftRecipeFragment extends Fragment {
 
         rv_drafts.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Recipe clickedRecipe = (Recipe) parent.getItemAtPosition(position);
-                draftsDbHelper.deleteOne(clickedRecipe);
+            public void onItemClick(final AdapterView<?> parent, View view, final int position, long id) {
 
-                //display new list
-                List<Recipe> drafts = draftsDbHelper.getAll();
+                //popupwindow
+                View popupView = LayoutInflater.from(getActivity()).inflate(R.layout.activity_pop, null);
+                final PopupWindow popupWindow = new PopupWindow(popupView, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
 
-                ArrayAdapter draftsArrayAdapter = new ArrayAdapter<Recipe>(getActivity(), android.R.layout.simple_list_item_1, drafts);
-                rv_drafts.setAdapter(draftsArrayAdapter);
+                // define buttons
+                btn_cancel = (Button) popupView.findViewById(R.id.btn_dr_cancel);
+                btn_post = (Button) popupView.findViewById(R.id.btn_dr_post);
+                btn_delete = (Button) popupView.findViewById(R.id.btn_dr_delete);
 
-                //toast
-                Toast.makeText(getActivity(), "Deleted " + clickedRecipe.toString(),Toast.LENGTH_SHORT);
+                // finally show up your popwindow
+                popupWindow.showAsDropDown(popupView, 0, 0);
+
+                final Recipe clickedRecipe = (Recipe) parent.getItemAtPosition(position);
+                btn_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        popupWindow.dismiss();
+                    }
+                });
+                btn_delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        //delete from list
+                        draftsDbHelper.deleteOne(clickedRecipe);
+
+                        //display new list
+                        List<Recipe> drafts = draftsDbHelper.getAll();
+                        ArrayAdapter draftsArrayAdapter = new ArrayAdapter<Recipe>(getActivity(), android.R.layout.simple_list_item_1, drafts);
+                        rv_drafts.setAdapter(draftsArrayAdapter);
+
+                        //toast
+                        Toast.makeText(getActivity(), "Deleted " + clickedRecipe.toString(), Toast.LENGTH_SHORT).show();
+                        popupWindow.dismiss();
+                    }
+                });
+                btn_post.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v) {
+                        //adding this item in list to firebase
+                        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        final FirebaseAuth auth = FirebaseAuth.getInstance();
+                        final String userID = auth.getCurrentUser().getUid();
+
+
+                        //set up db map
+                        final Map<String, Object> rec = new HashMap<>();
+                        rec.put("name", clickedRecipe.getName());
+                        rec.put("steps", clickedRecipe.getSteps());
+                        rec.put("ingredients", clickedRecipe.getIng());
+
+                        final String uploadID = db.collection("recipes").document().getId();
+                        rec.put("docID", uploadID);
+
+                        db.collection("recipes")
+                                .document(uploadID).set(rec)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        System.out.println("Recipe Posted!");
+                                        Toast.makeText(getActivity(), "Recipe Posted!",
+                                                Toast.LENGTH_SHORT).show();
+
+                                        //upload recipe to user's 'posts' collection with uploadID
+                                        try {
+                                            db.collection("users").document(userID).collection("posts").document(uploadID).set(rec);
+                                        } catch (ArithmeticException e) {
+                                            System.out.println("Couldn't save to drafts");
+                                        }
+                                    }
+                                });
+
+                        //delete from list and display new one
+                        draftsDbHelper.deleteOne(clickedRecipe);
+                        List<Recipe> drafts = draftsDbHelper.getAll();
+                        ArrayAdapter draftsArrayAdapter = new ArrayAdapter<Recipe>(getActivity(), android.R.layout.simple_list_item_1, drafts);
+                        rv_drafts.setAdapter(draftsArrayAdapter);
+
+                        //dismiss window
+                        Toast.makeText(getActivity(), "Posted " + clickedRecipe.toString(), Toast.LENGTH_SHORT).show();
+                        popupWindow.dismiss();
+                    }
+                });
+
             }
         });
 
