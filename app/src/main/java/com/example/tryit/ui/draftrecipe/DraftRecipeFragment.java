@@ -9,6 +9,7 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
@@ -50,7 +51,9 @@ public class DraftRecipeFragment extends Fragment {
 
     //reference to buttons and controls
     Button btn_add_ing, btn_save, btn_view_drafts;
+    String ingName, ingAmount, ingUnit;
     TextInputLayout in_rec_name, in_ing_name, in_ing_amt, in_ing_unit, in_directions;
+    CheckBox whole_checkBox;
     ListView rv_drafts;
 
     //popup window
@@ -72,6 +75,7 @@ public class DraftRecipeFragment extends Fragment {
         in_ing_unit = root.findViewById(R.id.dr_unit_input_layout);
         in_directions = root.findViewById(R.id.dr_directions_layout);
         rv_drafts = root.findViewById(R.id.dr_rv_drafts);
+        whole_checkBox = root.findViewById(R.id.dr_whole_checkBox);
 
         // recipe object created when page is opened
         final Recipe recipe = new Recipe();
@@ -81,9 +85,9 @@ public class DraftRecipeFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                String ingName = in_ing_name.getEditText().getText().toString();
-                String ingAmount = in_ing_amt.getEditText().getText().toString();
-                String ingUnit = in_ing_unit.getEditText().getText().toString();
+                ingName = in_ing_name.getEditText().getText().toString().trim();
+                ingAmount = in_ing_amt.getEditText().getText().toString().trim();
+                ingUnit = in_ing_unit.getEditText().getText().toString().trim();
 
                 //if one of them is empty, display error message
                 int emptyCount = 0;
@@ -94,7 +98,8 @@ public class DraftRecipeFragment extends Fragment {
                     in_ing_name.setErrorEnabled(true);
                     emptyCount++;
                 } else {
-                    in_ing_name.setError(null);
+//                    in_ing_name.setError(null);
+                    in_ing_name.setErrorEnabled(false);
                 }
 
                 if(ingAmount.isEmpty()) {
@@ -102,29 +107,36 @@ public class DraftRecipeFragment extends Fragment {
                     in_ing_amt.setErrorEnabled(true);
                     emptyCount++;
                 } else {
-                    in_ing_amt.setError(null);
+//                    in_ing_amt.setError(null);
+                    in_ing_amt.setErrorEnabled(false);
                     amount = Double.parseDouble(ingAmount);
                 }
 
-                if(ingUnit.isEmpty()) {
+                if(ingUnit.isEmpty() && !whole_checkBox.isChecked()) {
                     in_ing_unit.setError("Enter unit");
                     in_ing_unit.setErrorEnabled(true);
                     emptyCount++;
                 }else {
-                    in_ing_unit.setError(null);
+//                    in_ing_unit.setError(null);
+                    in_ing_unit.setErrorEnabled(false);
                 }
 
                 if(emptyCount == 0) {
                     Ingredient ing = new Ingredient(ingName, ingUnit, amount);
                     recipe.addIngredient(ing);
 
-                    in_ing_name.setError(null);
-                    in_ing_amt.setError(null);
-                    in_ing_unit.setError(null);
+//                    in_ing_name.setError(null);
+//                    in_ing_amt.setError(null);
+//                    in_ing_unit.setError(null);
+                    in_ing_name.setErrorEnabled(false);
+                    in_ing_amt.setErrorEnabled(false);
+                    in_ing_unit.setErrorEnabled(false);
 
                     in_ing_name.getEditText().getText().clear();
                     in_ing_unit.getEditText().getText().clear();
                     in_ing_amt.getEditText().getText().clear();
+                    whole_checkBox.setChecked(false);
+                    in_ing_unit.getEditText().setEnabled(true);
 
                     Toast.makeText(getActivity(),"Ingredient Added!", Toast.LENGTH_SHORT).show();
                 }
@@ -141,6 +153,8 @@ public class DraftRecipeFragment extends Fragment {
                 String ingName = in_ing_name.getEditText().getText().toString();
                 String ingAmount = in_ing_amt.getEditText().getText().toString();
                 String ingUnit = in_ing_unit.getEditText().getText().toString();
+                if(!whole_checkBox.isChecked())    ingUnit = in_ing_unit.getEditText().getText().toString().trim();
+
                 int emptyCount = 0;
 
                 if(recName.isEmpty()) {
@@ -190,6 +204,8 @@ public class DraftRecipeFragment extends Fragment {
                     in_ing_name.getEditText().getText().clear();
                     in_ing_unit.getEditText().getText().clear();
                     in_ing_amt.getEditText().getText().clear();
+                    whole_checkBox.setChecked(false);
+                    in_ing_unit.setEnabled(true);
 
                     //show list
                     draftsDbHelper = new SQLDraftsDbHelper(getActivity());
@@ -205,7 +221,8 @@ public class DraftRecipeFragment extends Fragment {
                         in_ing_name.setErrorEnabled(true);
                         emptyCount++;
                     } else {
-                        in_ing_name.setError(null);
+//                        in_ing_name.setError(null);
+                        in_ing_name.setErrorEnabled(false);
                     }
 
                     if(ingAmount.isEmpty()) {
@@ -213,15 +230,17 @@ public class DraftRecipeFragment extends Fragment {
                         in_ing_amt.setErrorEnabled(true);
                         emptyCount++;
                     } else {
-                        in_ing_amt.setError(null);
+//                        in_ing_amt.setError(null);
+                        in_ing_amt.setErrorEnabled(false);
                     }
 
-                    if(ingUnit.isEmpty()) {
+                    if(ingUnit.isEmpty() && !whole_checkBox.isChecked()) {
                         in_ing_unit.setError("Enter unit");
                         in_ing_unit.setErrorEnabled(true);
                         emptyCount++;
                     }else {
-                        in_ing_unit.setError(null);
+//                        in_ing_unit.setError(null);
+                        in_ing_unit.setErrorEnabled(false);
                     }
 
                     Toast.makeText(getActivity(),"Draft Incomplete (Ingredients Not Added)!", Toast.LENGTH_SHORT).show();
@@ -302,73 +321,74 @@ public class DraftRecipeFragment extends Fragment {
 
                         //parse the ingredient string before put in Firebase
 //                        Log.d("parseIng", clickedRecipe.getIng());
-                        Map<String, ArrayList<String>> fb_ingredients = new Map<String, ArrayList<String>>() {
-                            @Override
-                            public int size() {
-                                return 0;
-                            }
-
-                            @Override
-                            public boolean isEmpty() {
-                                return false;
-                            }
-
-                            @Override
-                            public boolean containsKey(@Nullable Object key) {
-                                return false;
-                            }
-
-                            @Override
-                            public boolean containsValue(@Nullable Object value) {
-                                return false;
-                            }
-
-                            @Nullable
-                            @Override
-                            public ArrayList<String> get(@Nullable Object key) {
-                                return null;
-                            }
-
-                            @Nullable
-                            @Override
-                            public ArrayList<String> put(String key, ArrayList<String> value) {
-                                return null;
-                            }
-
-                            @Nullable
-                            @Override
-                            public ArrayList<String> remove(@Nullable Object key) {
-                                return null;
-                            }
-
-                            @Override
-                            public void putAll(@NonNull Map<? extends String, ? extends ArrayList<String>> m) {
-
-                            }
-
-                            @Override
-                            public void clear() {
-
-                            }
-
-                            @NonNull
-                            @Override
-                            public Set<String> keySet() {
-                                return null;
-                            }
-
-                            @NonNull
-                            @Override
-                            public Collection<ArrayList<String>> values() {
-                                return null;
-                            }
-
-                            @NonNull
-                            @Override
-                            public Set<Entry<String, ArrayList<String>>> entrySet() {
-                                return null;
-                            }
-                        };
+                        Map<String, ArrayList<String>> fb_ingredients = new HashMap<>();//Map<String, ArrayList<String>>();
+//                        {
+//                            @Override
+//                            public int size() {
+//                                return 0;
+//                            }
+//
+//                            @Override
+//                            public boolean isEmpty() {
+//                                return false;
+//                            }
+//
+//                            @Override
+//                            public boolean containsKey(@Nullable Object key) {
+//                                return false;
+//                            }
+//
+//                            @Override
+//                            public boolean containsValue(@Nullable Object value) {
+//                                return false;
+//                            }
+//
+//                            @Nullable
+//                            @Override
+//                            public ArrayList<String> get(@Nullable Object key) {
+//                                return null;
+//                            }
+//
+//                            @Nullable
+//                            @Override
+//                            public ArrayList<String> put(String key, ArrayList<String> value) {
+//                                return null;
+//                            }
+//
+//                            @Nullable
+//                            @Override
+//                            public ArrayList<String> remove(@Nullable Object key) {
+//                                return null;
+//                            }
+//
+//                            @Override
+//                            public void putAll(@NonNull Map<? extends String, ? extends ArrayList<String>> m) {
+//
+//                            }
+//
+//                            @Override
+//                            public void clear() {
+//
+//                            }
+//
+//                            @NonNull
+//                            @Override
+//                            public Set<String> keySet() {
+//                                return null;
+//                            }
+//
+//                            @NonNull
+//                            @Override
+//                            public Collection<ArrayList<String>> values() {
+//                                return null;
+//                            }
+//
+//                            @NonNull
+//                            @Override
+//                            public Set<Entry<String, ArrayList<String>>> entrySet() {
+//                                return null;
+//                            }
+//                        };
                         StringBuffer all_ingredients = new StringBuffer(clickedRecipe.getIng());
                         Log.d("parIng", "allIng == " + all_ingredients);
 
@@ -436,6 +456,16 @@ public class DraftRecipeFragment extends Fragment {
                     }
                 });
 
+            }
+        });
+
+        whole_checkBox.setOnClickListener(new View.OnClickListener () {
+            @Override
+            public void onClick(View v) {
+                if(whole_checkBox.isChecked()) {
+                    in_ing_unit.getEditText().setEnabled(false);
+                    ingUnit = "whole";
+                } else in_ing_unit.getEditText().setEnabled(true);
             }
         });
 
