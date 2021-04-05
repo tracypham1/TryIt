@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.view.ViewGroup;
+
 import androidx.fragment.app.Fragment;
 import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
@@ -19,14 +20,11 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.android.gms.tasks.OnSuccessListener;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.firebase.firestore.DocumentReference;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
 
 public class PostRecipesFragment extends Fragment {
-    private PostRecipesViewModel postRecipesViewModel;
 
     private FirebaseAuth auth = FirebaseAuth.getInstance();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -46,7 +44,7 @@ public class PostRecipesFragment extends Fragment {
         final Button butt_addIn = root.findViewById(R.id.button_add_in);
         final Button butt_postRec = root.findViewById(R.id.button_post_rec);
         final Button butt_saveRec = root.findViewById(R.id.button_save_rec);
-        final CheckBox whole_checkbox = (CheckBox) root.findViewById(R.id.checkBox_whole);
+        final CheckBox whole_checkbox = root.findViewById(R.id.checkBox_whole);
 
         final TextInputLayout ingName_layout = root.findViewById(R.id.in_name_layout);
         final TextInputLayout ingUnit_layout = root.findViewById(R.id.unit_input_layout);
@@ -81,11 +79,14 @@ public class PostRecipesFragment extends Fragment {
                 rec.put("steps", steps);
                 rec.put("ingredients", ingMap);
 
+                String uploadID = db.collection("users").document(userID).collection("drafts").document().getId();
+                rec.put("docID", uploadID);
+
                 db.collection("users").document(userID).collection("drafts")
-                        .add(rec)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference> () {
+                        .document(uploadID).set(rec)
+                        .addOnSuccessListener(new OnSuccessListener<Void> () {
                             @Override
-                            public void onSuccess(DocumentReference documentReference) {
+                            public void onSuccess(Void aVoid) {
                                 System.out.println("Draft Saved!");
                                 Toast.makeText(getActivity(), "Draft Saved!",
                                         Toast.LENGTH_SHORT).show();
@@ -205,39 +206,51 @@ public class PostRecipesFragment extends Fragment {
                         ingMap.put(i.name, list);
                     }
 
+                    //-------------------------TRACY INCLUDE THIS vv------------------------------------
                     //set up db map
-                    Map<String, Object> rec = new HashMap<>();
+                    final Map<String, Object> rec = new HashMap<>();
                     rec.put("name", recName);
                     rec.put("steps", steps);
                     rec.put("ingredients", ingMap);
 
-                    db.collection("recipes")
-                            .add(rec)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference> () {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    System.out.println("Recipe Posted!");
-                                    Toast.makeText(getActivity(), "Recipe Posted!",
-                                            Toast.LENGTH_SHORT).show();
+                    final String uploadID = db.collection("recipes").document().getId();
+                    rec.put("docID", uploadID);
 
-                                    //reset form
-                                    recName_layout.getEditText().getText().clear();
-                                    steps_layout.getEditText().getText().clear();
-                                    ingName_layout.getEditText().getText().clear();
-                                    ingAmt_layout.getEditText().getText().clear();
-                                    ingUnit_layout.getEditText().getText().clear();
-                                    whole_checkbox.setChecked(false);
-                                    ingUnit_layout.getEditText().setEnabled(true);
-                                    recipe = new Recipe();
+                    db.collection("recipes")
+                        .document(uploadID).set(rec)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                System.out.println("Recipe Posted!");
+                                Toast.makeText(getActivity(), "Recipe Posted!",
+                                    Toast.LENGTH_SHORT).show();
+
+                                //upload recipe to user's 'posts' collection with uploadID
+                                try {
+                                    db.collection("users").document(userID).collection("posts").document(uploadID).set(rec);
+                                } catch(ArithmeticException e) {
+                                    System.out.println("Couldn't save to drafts");
                                 }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(getActivity(), "Error Occurred! Try again.",
-                                            Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                    //----------------------------------------------------------------------------
+
+                                //reset form
+                                recName_layout.getEditText().getText().clear();
+                                steps_layout.getEditText().getText().clear();
+                                ingName_layout.getEditText().getText().clear();
+                                ingAmt_layout.getEditText().getText().clear();
+                                ingUnit_layout.getEditText().getText().clear();
+                                whole_checkbox.setChecked(false);
+                                ingUnit_layout.getEditText().setEnabled(true);
+                                recipe = new Recipe();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Error Occurred! Try again.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
                 } else {
                     butt_addIn.setBackgroundColor(Color.parseColor("#dc143c"));
