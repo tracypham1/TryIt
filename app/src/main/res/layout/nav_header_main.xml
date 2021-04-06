@@ -6,9 +6,9 @@
     android:background="@drawable/side_nav_bar"
     android:gravity="bottom"
     android:orientation="horizontal"
-    android:paddingStart="15dp"
-    android:paddingBottom="10dp"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:theme="@style/ThemeOverlay.AppCompat.Dark"
+    android:paddingBottom="5sp"
+    android:paddingLeft="15dp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -19,7 +19,7 @@
         android:src="@drawable/ic_baseline_restaurant_menu_36" />
 
     <TextView
-        android:layout_width="59dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Try It"
