@@ -35,6 +35,9 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_recipe_">Recipe_Activity</string>
+    <string name="title_activity_stores_fragment">Map</string>
+    <string name="google_maps_key" translatable="false">AIzaSyCacj76RsthAq7E7pYGVD9OWFlFnyYrvIw</string>
+    <string name="title_activity_stores">Map</string>
 
 
 </resources>

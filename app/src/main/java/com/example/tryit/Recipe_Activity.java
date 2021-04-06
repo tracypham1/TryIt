@@ -38,7 +38,7 @@ import java.util.Objects;
 
 public class Recipe_Activity extends AppCompatActivity {
 
-    private TextView title, ready_in, servings, healthy, instructions;
+    private TextView title, instructions;
     private ImageView img, vegeterian;
     private DatabaseReference mRootRef;
     private FirebaseAuth mAuth;

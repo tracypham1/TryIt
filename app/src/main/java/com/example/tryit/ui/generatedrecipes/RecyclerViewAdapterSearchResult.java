@@ -40,7 +40,8 @@ public class RecyclerViewAdapterSearchResult extends RecyclerView.Adapter<Recycl
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
-        holder.tv_recipe_title.setText(mData.get(position).getName());
+        holder.tv_recipe_title.setText(mData.get(position).getName().toString());
+        System.out.println("Hello"+mData.get(position).getName().toString());
         if (mData.get(position).getThumbnail().isEmpty()) {
             holder.img_recipe_thumbnail.setImageResource(R.drawable.nopicture);
         } else{

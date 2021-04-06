@@ -64,7 +64,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView tv_recipe_title,tv_amount_of_dishes,tv_ready_in_mins;
+        TextView tv_recipe_title;
         ImageView img_recipe_thumbnail;
         CardView cardView ;
 
