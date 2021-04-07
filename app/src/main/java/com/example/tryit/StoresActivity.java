@@ -35,19 +35,19 @@ public class StoresActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_stores);
-
-        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.google_map);
-
-        client = LocationServices.getFusedLocationProviderClient(this);
-
-
-        if (ActivityCompat.checkSelfPermission(StoresActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            getCurrentLocation();
-        } else {
-            ActivityCompat.requestPermissions(StoresActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-        }
+//        setContentView(R.layout.activity_stores);
+//
+//        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+//                .findFragmentById(R.id.google_map);
+//
+//        client = LocationServices.getFusedLocationProviderClient(this);
+//
+//
+//        if (ActivityCompat.checkSelfPermission(StoresActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            getCurrentLocation();
+//        } else {
+//            ActivityCompat.requestPermissions(StoresActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+//        }
 
     }
 

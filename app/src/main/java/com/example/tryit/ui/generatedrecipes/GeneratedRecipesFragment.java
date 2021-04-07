@@ -43,8 +43,6 @@ public class GeneratedRecipesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View RootView = inflater.inflate(R.layout.fragment_generatedrecipes, container, false);
-        Toolbar mToolbarContact = RootView.findViewById(R.id.toolbar_search);
-        ((AppCompatActivity) requireActivity()).setSupportActionBar(mToolbarContact);
         myrv = RootView.findViewById(R.id.recycleview_ingredients);
         myrv.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         RecyclerViewAdapterIngredient myAdapter = new RecyclerViewAdapterIngredient(getContext(), lstIngredient);
