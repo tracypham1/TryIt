@@ -1,7 +1,6 @@
 package com.example.tryit;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
             // menu should be considered as top level destinations.
             mAppBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.nav_home, R.id.nav_draftrecipes, R.id.nav_generatedrecipes, R.id.nav_postrecipes,
-                    R.id.shoppinglist, R.id.nav_stores, R.id.nav_share, R.id.nav_send)
+                    R.id.sl_display, R.id.nav_stores, R.id.nav_share, R.id.nav_send)
                     .setDrawerLayout(drawer)
                     .build();
             NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -68,6 +67,21 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override

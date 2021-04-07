@@ -33,7 +33,8 @@
             android:id="@+id/email_input"
             android:layout_width="307dp"
             android:layout_height="54dp"
-            android:hint="Email" />
+            android:hint="Email"
+            android:singleLine="true"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
