@@ -18,6 +18,7 @@ import java.util.List;
 public class SQLDraftsDbHelper extends SQLiteOpenHelper{
 
     //its only letting me add when i delete so the uniques value isnt incrementing proprerly
+
     public static final String DRAFTS_TABLE = "DRAFTS_TABLE";
     public static final String COLUMN_REC_NAME = "RECIPE_NAME";
     public static final String COLUMN_INSTANCE_ID = "ID";
@@ -181,7 +182,6 @@ public class SQLDraftsDbHelper extends SQLiteOpenHelper{
         cursor.close();
         db.close();
         return returnList;
-
     }
 
     public boolean sl_deleteOne(Ingredient ing){

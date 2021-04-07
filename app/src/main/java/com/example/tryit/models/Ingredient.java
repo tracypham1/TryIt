@@ -4,12 +4,16 @@ public class Ingredient {
     public String name;
     public String unit;
     public double amount;
+    private String Thumbnail;
+    private boolean selected;
     private int id;
 
-    public Ingredient(String _name, String _unit, double _amount) {
-        name = _name;
-        unit = _unit;
+    public Ingredient(String name, String _unit,double _amount,String thumbnail) {
+        this.name = name;
+        Thumbnail = "https://spoonacular.com/cdn/ingredients_100x100/" + thumbnail;
+        selected = false;
         amount = _amount;
+        unit=_unit;
     }
 
     public Ingredient() {}
@@ -18,7 +22,6 @@ public class Ingredient {
         id = _id;
     }
 
-
     @Override
     public String toString() {
         return "\nIngredient{" +
@@ -26,7 +29,6 @@ public class Ingredient {
                 ", unit=(" + unit + ')' +
                 ", amount=(" + amount +
                 ")}\n";
-//        return name;
     }
 
     public String getName() {
@@ -44,4 +46,21 @@ public class Ingredient {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getThumbnail() {
+        return Thumbnail;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected() {
+        selected = !selected;
+    }
 }
+

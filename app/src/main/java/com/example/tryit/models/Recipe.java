@@ -4,10 +4,14 @@ import java.util.ArrayList;
 
 public class Recipe {
     private String name;
+    private String Thumbnail;
     private ArrayList<Ingredient> ingredients;
     private String steps;
     private String docID;
     private String ing;
+  
+    //might cause issue
+    private String id;
     private int id;
 
 //    CONSTRUCTORS
@@ -18,18 +22,12 @@ public class Recipe {
         docID = _docID;
     }
 
-    public Recipe(String _name, String _ingredients, String _steps, int _id) {
+    public Recipe(String _name, String _ingredients, String _steps, int _id, String _thumbnail) {
         name = _name;
         ing = _ingredients;
         steps = _steps;
         id = _id;
-    }
-
-    public Recipe(String _name, String _ingredients, String _steps, String _docID) {
-        name = _name;
-        ing = _ingredients;
-        steps = _steps;
-        docID = _docID;
+        Thumbnail=_thumbnail;
     }
 
     public Recipe() {
@@ -45,9 +43,11 @@ public class Recipe {
     public ArrayList<Ingredient> getIngredients() {
         return ingredients;
     }
+  
     public int getId() {
         return id;
     }
+
     public String getIng() { return ing; }
     public String getIngredientsString() {
         String listString = "";
@@ -56,6 +56,10 @@ public class Recipe {
             listString += i.toString() + "\n";
         }
         return listString;
+    }
+
+    public void setIngredients(ArrayList<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
     public String getSteps() {
         return steps;
@@ -79,8 +83,14 @@ public class Recipe {
         this.id = id;
     }
 
-    //================================================
+    public String getId() {
+        return id;
+    }
 
+    public String getThumbnail() {
+        return Thumbnail;
+    }
+  
     // MEMBER FUNCTIONS
     //toString necessary for printing object information
     @Override
@@ -95,5 +105,8 @@ public class Recipe {
     public void addIngredient(Ingredient _ingredient) {
         this.ingredients.add(_ingredient);
     }
+ //   public String toString() {
+ //       return getName();
+  //  }
 
 }

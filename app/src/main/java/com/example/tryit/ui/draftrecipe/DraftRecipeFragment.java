@@ -20,15 +20,10 @@ import android.widget.ListView;
 import java.util.Collection;
 import java.util.Map;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
-//import androidx.appcompat.app.AlertController;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.tryit.MainActivity;
 import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.Recipe;
@@ -43,6 +38,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+//import androidx.appcompat.app.AlertController;
 
 public class DraftRecipeFragment extends Fragment {
 
@@ -122,7 +119,7 @@ public class DraftRecipeFragment extends Fragment {
                 }
 
                 if(emptyCount == 0) {
-                    Ingredient ing = new Ingredient(ingName, ingUnit, amount);
+                    Ingredient ing = new Ingredient(ingName, ingUnit, amount,ingName);
                     recipe.addIngredient(ing);
 
 //                    in_ing_name.setError(null);
@@ -190,6 +187,7 @@ public class DraftRecipeFragment extends Fragment {
                     recipe.setSteps(steps)  ;
 
                     boolean success = sqlDraftsDbHelper.addOne(recipe);
+
                     Log.d("parse", "save_rec() -- recipe.getIngredient = \n" + recipe.getIngredients());
 
                     // show everything in db atm in toast
@@ -198,7 +196,7 @@ public class DraftRecipeFragment extends Fragment {
 
                     // final draft saved
                     Toast.makeText(getActivity(),"Draft Saved!", Toast.LENGTH_SHORT).show();
-
+                  
                     in_rec_name.getEditText().getText().clear();
                     in_directions.getEditText().getText().clear();
                     in_ing_name.getEditText().getText().clear();
