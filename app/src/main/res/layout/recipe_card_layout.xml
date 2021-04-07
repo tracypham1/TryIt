@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_marginBottom="20dp"
-    android:background="#B3E6D0"
+    android:background="#4CA99F"
     android:gravity="center"
     android:orientation="horizontal"
     android:paddingLeft="10dp"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="Recipe Name"
-            android:textColor="#696969"
+            android:textColor="#FFFFFF"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="Recipe Ingredients"
-            android:textColor="#343434"
+            android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="Recipe Steps"
-            android:textColor="#A9A9A9"
+            android:textColor="#FFFFFF"
             android:textSize="20sp" />
 
     </LinearLayout>
