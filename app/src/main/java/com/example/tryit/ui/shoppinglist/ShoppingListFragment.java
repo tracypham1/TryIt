@@ -22,6 +22,7 @@ import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.SQLDraftsDbHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 // http://users.csc.calpoly.edu/~djanzen/android/shoppinglist.html
@@ -88,8 +89,20 @@ public class ShoppingListFragment extends Fragment {
                 //immediate update the list on page tooshoppingListDbHelper = new SQLDraftsDbHelper((getActivity()));
                 List<Ingredient> ings = shoppingListDbHelper.sl_getAll();
 
+                //CHANGE
+
+                //old format
                 ArrayAdapter slArrayAdapter = new ArrayAdapter<Ingredient>(getActivity(), android.R.layout.simple_list_item_1, ings);
                 lv_shoppinglist.setAdapter(slArrayAdapter);
+
+//                //convert formatting
+//                List<String> ings_strings = new ArrayList<>();
+//                for (int i = 0; i < ings.size(); i++) {
+//                    ings_strings.add(ings.get(i).getName());
+//                }
+//
+//                ArrayAdapter slArrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, ings_strings);
+//                lv_shoppinglist.setAdapter(slArrayAdapter);
 
             }
 

@@ -11,7 +11,7 @@ public class Recipe {
     private String ing;
   
     //might cause issue
-    private String id;
+    private String sid;
     private int id;
 
 //    CONSTRUCTORS
@@ -22,11 +22,18 @@ public class Recipe {
         docID = _docID;
     }
 
-    public Recipe(String _name, String _ingredients, String _steps, int _id, String _thumbnail) {
+    public Recipe(String _name, String _ingredients, String _steps, int _id) {
         name = _name;
         ing = _ingredients;
         steps = _steps;
         id = _id;
+    }
+
+    public Recipe(String _name, String _ingredients, String _steps, String _sid, String _thumbnail) {
+        name = _name;
+        ing = _ingredients;
+        steps = _steps;
+        sid = _sid;
         Thumbnail=_thumbnail;
     }
 
@@ -76,15 +83,12 @@ public class Recipe {
         this.steps = steps;
     }
     public void setDocID(String docID) { this.docID = docID; }
-    public void setIngredients(ArrayList<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
     public void setId(int id) {
         this.id = id;
     }
 
-    public String getId() {
-        return id;
+    public String getSId() {
+        return sid;
     }
 
     public String getThumbnail() {

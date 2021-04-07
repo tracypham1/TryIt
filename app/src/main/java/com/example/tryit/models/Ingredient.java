@@ -47,10 +47,6 @@ public class Ingredient {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
     public String getThumbnail() {
         return Thumbnail;
     }
@@ -61,6 +57,22 @@ public class Ingredient {
 
     public void setSelected() {
         selected = !selected;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
     }
 }
 

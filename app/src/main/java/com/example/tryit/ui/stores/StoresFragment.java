@@ -45,30 +45,30 @@ public class StoresFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         storesViewModel =
                 ViewModelProviders.of(this).get(StoresViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-//        View root = inflater.inflate(R.layout.fragment_stores, container, false);
-//
-//        SupportMapFragment supportMapFragment = (SupportMapFragment)
-//                getChildFragmentManager().findFragmentById(R.id.google_map);
-//
-//        btlocation = root.findViewById(R.id.current_location);
-//        client = LocationServices.getFusedLocationProviderClient(getActivity());
-//
-//        btlocation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-//                        == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-//                        == PackageManager.PERMISSION_GRANTED) {
-//                    Intent StoresIntent = new Intent(getActivity(), StoresActivity.class);
-//                    startActivity(StoresIntent);
-//                }else{
-//                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION
-//                            ,Manifest.permission.ACCESS_COARSE_LOCATION},100);
-//                }
-//            }
-//        });
-//
+//        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        View root = inflater.inflate(R.layout.fragment_stores, container, false);
+
+        SupportMapFragment supportMapFragment = (SupportMapFragment)
+                getChildFragmentManager().findFragmentById(R.id.google_map);
+
+        btlocation = root.findViewById(R.id.current_location);
+        client = LocationServices.getFusedLocationProviderClient(getActivity());
+
+        btlocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+                    Intent StoresIntent = new Intent(getActivity(), StoresActivity.class);
+                    startActivity(StoresIntent);
+                }else{
+                    requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION
+                            ,Manifest.permission.ACCESS_COARSE_LOCATION},100);
+                }
+            }
+        });
+
         return root;
     }
 /*
