@@ -51,18 +51,35 @@
                     android:id="@+id/dr_in_name_layout"
                     android:layout_width="247dp"
                     android:layout_height="64dp"
+                    android:layout_gravity="center_vertical"
                     android:layout_marginTop="20dp"
+                    android:background="@layout/textbox_format"
+                    android:textColorHint="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.06"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dr_ingredient_title">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dr_in_name_input"
+                    <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Ingredient Name"
-                        android:textSize="14sp" />
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/dr_in_name_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="20dp"
+                            android:background="@android:color/transparent"
+                            android:hint="Ingredient Name"
+                            android:singleLine="true"
+                            android:textColorHint="@android:color/white"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.16"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -70,18 +87,35 @@
                     android:layout_width="184dp"
                     android:layout_height="64dp"
                     android:layout_marginTop="20dp"
+                    android:background="@layout/textbox_format"
+                    android:textColorHint="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.669"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dr_in_name_layout">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dr_unit_input"
-                        android:layout_width="188dp"
-                        android:layout_height="wrap_content"
-                        android:hint='Unit of Measure (i.e. "oz")'
-                        android:inputType="none"
-                        android:textSize="14sp" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/dr_unit_input"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint='Unit of Measure (i.e. "oz")'
+                            android:inputType="none"
+                            android:singleLine="true"
+                            android:textColorHint="@android:color/white"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
@@ -91,9 +125,9 @@
                     android:layout_marginTop="20dp"
                     android:background="@layout/button_format"
                     android:padding="10dp"
-                    android:textColor="@android:color/white"
                     android:text="ADD ITEM"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                    android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.9"
                     app:layout_constraintStart_toStartOf="parent"
@@ -104,18 +138,35 @@
                     android:layout_width="123dp"
                     android:layout_height="68dp"
                     android:layout_marginTop="20dp"
+                    android:background="@layout/textbox_format"
+                    android:textColorHint="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.056"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dr_unit_input_layout">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dr_amount_input"
-                        android:layout_width="84dp"
-                        android:layout_height="wrap_content"
-                        android:hint="Amount"
-                        android:inputType="numberDecimal"
-                        android:textSize="14sp" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/dr_amount_input"
+                            android:layout_width="84dp"
+                            android:layout_height="wrap_content"
+                            android:background="@android:color/transparent"
+                            android:hint="Amount"
+                            android:inputType="numberDecimal"
+                            android:singleLine="true"
+                            android:textColorHint="@android:color/white"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -137,8 +188,8 @@
                     android:layout_marginTop="20dp"
                     android:background="@layout/button_format"
                     android:padding="10dp"
-                    android:textColor="@android:color/white"
                     android:text="Save Recipe"
+                    android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.154"
                     app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +200,11 @@
                     android:layout_width="255dp"
                     android:layout_height="65dp"
                     android:layout_marginTop="20dp"
+                    android:background="@layout/textbox_format"
                     android:hint="Recipe Name"
+                    android:padding="10dp"
+                    android:textColorHint="@android:color/white"
+                    app:boxStrokeWidth="0dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -158,7 +213,9 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/dr_rec_name_input"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:singleLine="true" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
@@ -168,8 +225,8 @@
                     android:layout_marginTop="20dp"
                     android:background="@layout/button_format"
                     android:padding="10dp"
-                    android:textColor="@android:color/white"
                     android:text="View Drafts"
+                    android:textColor="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.834"
                     app:layout_constraintStart_toStartOf="parent"
@@ -180,6 +237,7 @@
                     android:layout_width="390dp"
                     android:layout_height="192dp"
                     android:layout_marginTop="20dp"
+                    android:background="@layout/textbox_format"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.476"
                     app:layout_constraintStart_toStartOf="parent"
@@ -190,20 +248,33 @@
                     android:layout_width="396dp"
                     android:layout_height="200dp"
                     android:layout_marginTop="20dp"
+                    android:background="@layout/textbox_format"
                     android:inputType="textMultiLine"
+                    android:textColorHint="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/dr_directions_title">
 
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/dr_directions_input"
-                        android:layout_width="384dp"
-                        android:layout_height="58dp"
-                        android:hint="Insert Instructions Here"
-                        android:textSize="14sp"
-                        tools:layout_editor_absoluteX="14dp"
-                        tools:layout_editor_absoluteY="354dp" />
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/dr_directions_input"
+                            android:layout_width="360dp"
+                            android:layout_height="180dp"
+                            android:background="@android:color/transparent"
+                            android:singleLine="false"
+                            android:textSize="14sp"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.5"
+                            app:layout_constraintVertical_bias="0.5"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
