@@ -215,12 +215,11 @@
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/dr_directions_layout"
                     android:layout_width="396dp"
-                    android:layout_height="200dp"
+                    android:layout_height="150dp"
                     android:padding="10dp"
                     android:layout_marginTop="20dp"
                     android:background="@layout/textbox_format"
                     android:inputType="textMultiLine"
-                    android:textColorHint="@android:color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
