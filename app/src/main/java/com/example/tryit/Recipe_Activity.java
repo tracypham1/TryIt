@@ -56,7 +56,7 @@ public class Recipe_Activity extends AppCompatActivity {
         final String recipeId = Objects.requireNonNull(intent.getExtras()).getString("id");
         mAuth = FirebaseAuth.getInstance();
         final String uid = mAuth.getCurrentUser().getUid();
-        mRootRef = FirebaseDatabase.getInstance().getReference().child(uid).child(recipeId);
+//        mRootRef = FirebaseDatabase.getInstance().getReference().child(uid).child(recipeId); //this line causes error and variable is not used
         img = findViewById(R.id.recipe_img);
         title = findViewById(R.id.recipe_title);
 

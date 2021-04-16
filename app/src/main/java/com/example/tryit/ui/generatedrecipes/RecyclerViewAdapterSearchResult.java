@@ -41,7 +41,6 @@ public class RecyclerViewAdapterSearchResult extends RecyclerView.Adapter<Recycl
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.tv_recipe_title.setText(mData.get(position).getName().toString());
-        System.out.println("Hello"+mData.get(position).getName().toString());
         if (mData.get(position).getThumbnail().isEmpty()) {
             holder.img_recipe_thumbnail.setImageResource(R.drawable.nopicture);
         } else{
@@ -51,7 +50,9 @@ public class RecyclerViewAdapterSearchResult extends RecyclerView.Adapter<Recycl
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Recipe_Activity.class);
-                intent.putExtra("id", mData.get(position).getId());
+                intent.putExtra("id", mData.get(position).getSId()); //changed to SId
+                System.out.println("position: " + position);
+                System.out.println("id from RecyclerViewAdapter: " + mData.get(position).getSId()); //added
                 intent.putExtra("name",mData.get(position).getName());
                 intent.putExtra("img",mData.get(position).getThumbnail());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
