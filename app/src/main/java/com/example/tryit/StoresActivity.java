@@ -1,13 +1,16 @@
 package com.example.tryit;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -25,7 +28,7 @@ import com.google.android.gms.tasks.Task;
 public class StoresActivity extends FragmentActivity implements OnMapReadyCallback {
 
     GoogleMap map;
-    Button btFind;
+    Button btFind, backButton;
     Location currentLocation;
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
@@ -35,19 +38,29 @@ public class StoresActivity extends FragmentActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_stores);
-//
-//        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-//                .findFragmentById(R.id.google_map);
-//
-//        client = LocationServices.getFusedLocationProviderClient(this);
-//
-//
-//        if (ActivityCompat.checkSelfPermission(StoresActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            getCurrentLocation();
-//        } else {
-//            ActivityCompat.requestPermissions(StoresActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-//        }
+        setContentView(R.layout.activity_stores);
+
+        backButton = findViewById(R.id.stores_activity_backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.google_map);
+
+        client = LocationServices.getFusedLocationProviderClient(this);
+
+
+        if (ActivityCompat.checkSelfPermission(StoresActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            getCurrentLocation();
+        } else {
+            ActivityCompat.requestPermissions(StoresActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
 
     }
 

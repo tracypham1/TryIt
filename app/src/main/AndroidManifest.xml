@@ -41,6 +41,7 @@
         <activity
             android:name=".Recipe_Activity"
             android:label="@string/title_activity_recipe_"
+            android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SearchResultsActivity"
@@ -48,11 +49,9 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUpActivity"
-            android:noHistory="true"
             android:parentActivityName=".SignInActivity" />
         <activity
-            android:name=".SignInActivity"
-            android:noHistory="true" />
+            android:name=".SignInActivity"/>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import android.widget.Button;
 
 public class Recipe_Activity extends AppCompatActivity {
 
@@ -45,22 +47,34 @@ public class Recipe_Activity extends AppCompatActivity {
     private JSONArray ingredientsArr;
     private List<Ingredient> ingredientsLst = new ArrayList<Ingredient>();
     private RecyclerView myrv;
-
+    private Button backButton;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe);
+
         final Intent intent = getIntent();
         final String recipeId = Objects.requireNonNull(intent.getExtras()).getString("id");
         mAuth = FirebaseAuth.getInstance();
         final String uid = mAuth.getCurrentUser().getUid();
-//        mRootRef = FirebaseDatabase.getInstance().getReference().child(uid).child(recipeId);
+//        mRootRef = FirebaseDatabase.getInstance().getReference().child(uid).child(recipeId); //this line causes error and variable is not used
         img = findViewById(R.id.recipe_img);
         title = findViewById(R.id.recipe_title);
-
         instructions = findViewById(R.id.recipe_instructions);
+
+        //needed so the app doesn't crash
+        backButton = findViewById(R.id.rec_activity_backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         getRecipeData(recipeId);
 
         myrv = findViewById(R.id.recipe_ingredients_rv);

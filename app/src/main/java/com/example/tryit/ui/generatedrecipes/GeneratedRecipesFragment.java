@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.google.android.gms.common.internal.safeparcel.SafeParcelable.NULL;
-
+import com.example.tryit.ui.searchResults.SearchResultsFragment;
 // http://users.csc.calpoly.edu/~djanzen/android/shoppinglist.html
 
 public class GeneratedRecipesFragment extends Fragment {
@@ -57,8 +57,15 @@ public class GeneratedRecipesFragment extends Fragment {
                     Toast.makeText(getActivity(), "You must select at least one ingredient", Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Intent searchResultsIntent = new Intent(getActivity(), SearchResultsActivity.class);
-                    startActivity(searchResultsIntent);
+//                    Intent searchResultsIntent = new Intent(getActivity(), SearchResultsActivity.class);
+//                    startActivity(searchResultsIntent);
+
+//                    container.removeView((ViewGroup)getView());
+                    getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(container.getId(), new SearchResultsFragment()) //container.getId()
+                        .addToBackStack(null)
+                        .commit();
+
                 }
             }
         });
