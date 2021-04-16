@@ -14,9 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tryit.R;
 import com.example.tryit.Recipe_Activity;
 import com.example.tryit.models.Recipe;
+import com.example.tryit.ui.searchResults.SearchResultsFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.MyViewHolder> {
 
@@ -53,6 +55,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 intent.putExtra("title",mData.get(position).getName());
                 intent.putExtra("img",mData.get(position).getThumbnail());
                 mContext.startActivity(intent);
+
+
             }
         });
     }

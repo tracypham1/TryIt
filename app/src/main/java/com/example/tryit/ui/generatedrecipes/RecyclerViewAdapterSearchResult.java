@@ -9,12 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tryit.R;
 import com.example.tryit.Recipe_Activity;
 import com.example.tryit.models.Recipe;
+import com.example.tryit.ui.searchResults.SearchResultsFragment;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -23,6 +25,7 @@ public class RecyclerViewAdapterSearchResult extends RecyclerView.Adapter<Recycl
 
     private Context mContext;
     private List<Recipe> mData;
+    private ViewGroup viewGroup;
 
     public RecyclerViewAdapterSearchResult(Context mContext, List<Recipe> mData) {
         this.mContext = mContext;
@@ -35,6 +38,7 @@ public class RecyclerViewAdapterSearchResult extends RecyclerView.Adapter<Recycl
         View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
         view = mInflater.inflate(R.layout.cardview_item_search_result, parent, false);
+        this.viewGroup = parent;
         return new MyViewHolder(view);
     }
 
@@ -50,13 +54,21 @@ public class RecyclerViewAdapterSearchResult extends RecyclerView.Adapter<Recycl
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, Recipe_Activity.class);
-                intent.putExtra("id", mData.get(position).getSId()); //changed to SId
-                System.out.println("position: " + position);
-                System.out.println("id from RecyclerViewAdapter: " + mData.get(position).getSId()); //added
+                intent.putExtra("id", mData.get(position).getSId()); //changed to SId!!
                 intent.putExtra("name",mData.get(position).getName());
                 intent.putExtra("img",mData.get(position).getThumbnail());
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
+
+//                AppCompatActivity activity = (AppCompatActivity) viewGroup.getContext();
+//                activity.getSupportFragmentManager().beginTransaction()
+//                        .replace(viewGroup.getId(), new RecipeFragment(
+//                                mData.get(position).getSId(),
+//                                mData.get(position).getName(),
+//                                mData.get(position).getThumbnail()
+//                        ))
+//                        .addToBackStack(null)
+//                        .commit();
             }
         });
     }

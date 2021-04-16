@@ -8,10 +8,12 @@
     tools:context=".Recipe_Activity">
 
     <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -24,8 +26,8 @@
                 android:contentDescription="@+id/recipe_img"
                 app:srcCompat="@color/common_google_signin_btn_text_light_pressed" />
 
-
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardView_recipe_activity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-50dp"
@@ -42,12 +44,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="66dp"
                         android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="20dp"
                         android:layout_marginEnd="55dp"
+                        android:layout_marginRight="55dp"
                         android:text="Recipe Title"
-                        android:textStyle="bold"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="55dp" />
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/textView37"
@@ -82,6 +84,23 @@
                         android:text="TextView" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/rec_activity_backButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@layout/button_format"
+                android:padding="10dp"
+                android:text="Back Home"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView_recipe_activity" />
+
         </LinearLayout>
+
     </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
