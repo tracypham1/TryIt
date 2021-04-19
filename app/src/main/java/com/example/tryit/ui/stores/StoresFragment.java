@@ -1,6 +1,7 @@
 package com.example.tryit.ui.stores;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -10,10 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -35,7 +39,7 @@ public class StoresFragment extends Fragment implements LocationListener {
     SupportMapFragment supportMapFragment;
     FusedLocationProviderClient client;
 
-    private static final int REQUEST_CODE = 101;
+    private static final int REQUEST_LOCATION = 101;
 
     Button btlocation;
 
@@ -46,6 +50,7 @@ public class StoresFragment extends Fragment implements LocationListener {
         super.onCreate(savedInstanceState);
 
     }
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -67,9 +72,12 @@ public class StoresFragment extends Fragment implements LocationListener {
                     public void onMapReady(final GoogleMap googleMap) {
 
                         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
+                            ActivityCompat.requestPermissions(getActivity(),
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_LOCATION);
                             return;
+
                         }
+
                         googleMap.setMyLocationEnabled(true);
                         Criteria criteria = new Criteria();
                         LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
@@ -93,6 +101,7 @@ public class StoresFragment extends Fragment implements LocationListener {
 
          return root;
     }
+
 
     @Override
     public void onLocationChanged(Location location) {
