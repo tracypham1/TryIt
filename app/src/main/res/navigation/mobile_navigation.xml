@@ -12,10 +12,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_generatedrecipes"
-        android:name="com.example.tryit.ui.generatedrecipes.GeneratedRecipesFragment"
-        android:label="@string/menu_generatedrecipes"
-        tools:layout="@layout/fragment_generatedrecipes" />
+        android:id="@+id/nav_draftrecipes"
+        android:name="com.example.tryit.ui.draftrecipe.DraftRecipeFragment"
+        android:label="@string/menu_draftrecipe"
+        tools:layout="@layout/fragment_draftrecipe" />
 
     <fragment
         android:id="@+id/nav_postrecipes"
@@ -24,10 +24,10 @@
         tools:layout="@layout/fragment_postrecipes" />
 
     <fragment
-        android:id="@+id/nav_stores"
-        android:name="com.example.tryit.ui.stores.StoresFragment"
-        android:label="@string/menu_stores"
-        tools:layout="@layout/fragment_stores" />
+        android:id="@+id/nav_generatedrecipes"
+        android:name="com.example.tryit.ui.generatedrecipes.GeneratedRecipesFragment"
+        android:label="@string/menu_generatedrecipes"
+        tools:layout="@layout/fragment_generatedrecipes" />
 
     <fragment
         android:id="@+id/nav_shoppinglist"
@@ -36,8 +36,10 @@
         tools:layout="@layout/fragment_shoppinglist" />
 
     <fragment
-        android:id="@+id/nav_draftrecipes"
-        android:name="com.example.tryit.ui.draftrecipe.DraftRecipeFragment"
-        android:label="@string/menu_draftrecipe"
-        tools:layout="@layout/fragment_draftrecipe" />
+        android:id="@+id/nav_stores"
+        android:name="com.example.tryit.ui.stores.StoresFragment"
+        android:label="@string/menu_stores"
+        tools:layout="@layout/fragment_stores" />
+
+
 </navigation>

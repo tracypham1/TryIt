@@ -1,5 +1,6 @@
 package com.example.tryit.ui.draftrecipe;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -170,8 +171,14 @@ public class DraftRecipeFragment extends Fragment {
                     in_directions.setError(null);
                 }
 
+                if(recipe.getIngredients().isEmpty()) {
+                    btn_add_ing.setBackgroundColor(Color.parseColor("#dc143c"));
+                    btn_add_ing.setTextColor(Color.WHITE);
+                    emptyCount++;
+                }
+
                 // when everything is filled out and ready to be added to db
-                if((emptyCount == 0) && !recipe.getIngredients().isEmpty()) {
+                if(emptyCount == 0) {
 //                    recipe.setName(ingName);
 //                    recipe.setSteps(steps);
 
@@ -181,6 +188,8 @@ public class DraftRecipeFragment extends Fragment {
                     in_ing_name.setError(null);
                     in_ing_amt.setError(null);
                     in_ing_unit.setError(null);
+                    btn_add_ing.setBackgroundColor(Color.parseColor("#cccccc"));
+                    btn_add_ing.setTextColor(Color.BLACK);
 
                     //add to recipe object and dp
                     recipe.setName(recName);
@@ -214,38 +223,7 @@ public class DraftRecipeFragment extends Fragment {
 
                     // else keep telling user there is an error
                 } else {
-                    if(ingName.isEmpty()) {
-                        in_ing_name.setError("Enter name");
-                        in_ing_name.setErrorEnabled(true);
-                        emptyCount++;
-                    } else {
-//                        in_ing_name.setError(null);
-                        in_ing_name.setErrorEnabled(false);
-                    }
-
-                    if(ingAmount.isEmpty()) {
-                        in_ing_amt.setError("Enter amount");
-                        in_ing_amt.setErrorEnabled(true);
-                        emptyCount++;
-                    } else {
-//                        in_ing_amt.setError(null);
-                        in_ing_amt.setErrorEnabled(false);
-                    }
-
-                    if(ingUnit.isEmpty() && !whole_checkBox.isChecked()) {
-                        in_ing_unit.setError("Enter unit");
-                        in_ing_unit.setErrorEnabled(true);
-                        emptyCount++;
-                    }else {
-//                        in_ing_unit.setError(null);
-                        in_ing_unit.setErrorEnabled(false);
-                    }
-
-                    Toast.makeText(getActivity(),"Draft Incomplete (Ingredients Not Added)!", Toast.LENGTH_SHORT).show();
-
-                    // show everything in db atm in toast
-                    // List<Recipe> allRecipes = sqlDraftsDbHelper.getAll();
-                    // Toast.makeText(getActivity(), allRecipes.toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity(),"Draft Incomplete!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -10,25 +10,31 @@
             android:title="@string/menu_home" />
 
         <item
-            android:id="@+id/nav_generatedrecipes"
-            android:icon="@drawable/ic_baseline_change_circle_24"
-            android:title="@string/menu_generatedrecipes" />
+            android:id="@+id/nav_draftrecipes"
+            android:icon="@drawable/ic_baseline_create_24"
+            android:title="@string/menu_draftrecipe" />
+
         <item
             android:id="@+id/nav_postrecipes"
             android:icon="@drawable/ic_baseline_note_add_24"
             android:title="@string/menu_postrecipes" />
+
         <item
-            android:id="@+id/nav_stores"
-            android:icon="@drawable/ic_baseline_local_grocery_store_24"
-            android:title="@string/menu_stores" />
+            android:id="@+id/nav_generatedrecipes"
+            android:icon="@drawable/ic_baseline_change_circle_24"
+            android:title="@string/menu_generatedrecipes" />
+
         <item
             android:id="@+id/nav_shoppinglist"
             android:icon="@drawable/ic_baseline_checklist_24"
             android:title="@string/menu_shoppinglist" />
+
         <item
-            android:id="@+id/nav_draftrecipes"
-            android:icon="@drawable/ic_baseline_create_24"
-            android:title="@string/menu_draftrecipe" />
+            android:id="@+id/nav_stores"
+            android:icon="@drawable/ic_baseline_local_grocery_store_24"
+            android:title="@string/menu_stores" />
+
+
     </group>
 
 </menu>

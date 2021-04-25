@@ -2,6 +2,7 @@ package com.example.tryit.ui.postrecipe;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.tryit.R;
 import com.example.tryit.models.Ingredient;
 import com.example.tryit.models.Recipe;
+import com.example.tryit.models.SQLDraftsDbHelper;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;
@@ -60,8 +62,110 @@ public class PostRecipesFragment extends Fragment {
         butt_saveRec.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                SQLDraftsDbHelper sqlDraftsDbHelper = new SQLDraftsDbHelper(getActivity());
+
                 recName = recName_layout.getEditText().getText().toString().trim();
                 steps = steps_layout.getEditText().getText().toString().trim();
+
+                int emptyCount = 0;
+
+                if(recName.isEmpty()) {
+                    recName_layout.setError("Enter name");
+                    recName_layout.setErrorEnabled(true);
+                    emptyCount++;
+                } else recName_layout.setErrorEnabled(false);
+
+                if(steps.isEmpty()) {
+                    steps_layout.setError("Enter instructions");
+                    steps_layout.setErrorEnabled(true);
+                    emptyCount++;
+                } else steps_layout.setErrorEnabled(false);
+
+                if(recipe.getIngredients().isEmpty()) {
+                    butt_addIn.setBackgroundColor(Color.parseColor("#dc143c"));
+                    butt_addIn.setTextColor(Color.WHITE);
+                    emptyCount++;
+                }
+
+                if(emptyCount == 0) {
+                    butt_addIn.setBackgroundColor(Color.parseColor("#cccccc"));
+                    butt_addIn.setTextColor(Color.BLACK);
+
+                    ingName_layout.setErrorEnabled(false);
+                    ingUnit_layout.setErrorEnabled(false);
+                    ingAmt_layout.setErrorEnabled(false);
+                    recName_layout.setErrorEnabled(false);
+                    steps_layout.setErrorEnabled(false);
+
+                    //add recipe to db
+                    recipe.setName(recName);
+                    recipe.setSteps(steps);
+
+                    //set up ingredients map
+                    Map<String, ArrayList> ingMap = new HashMap<>();
+                    for (Ingredient i: recipe.getIngredients()) {
+                        ArrayList list = new ArrayList<String>();
+                        list.add(String.valueOf(i.amount));
+                        list.add(i.unit);
+                        ingMap.put(i.name, list);
+                    }
+
+                    //set up db map
+                    final Map<String, Object> rec = new HashMap<>();
+                    rec.put("name", recName);
+                    rec.put("steps", steps);
+                    rec.put("ingredients", ingMap);
+
+                    final String uploadID = db.collection("recipes").document().getId();
+                    rec.put("docID", uploadID);
+
+                    db.collection("recipes")
+                            .document(uploadID).set(rec)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    System.out.println("Recipe Posted!");
+                                    Toast.makeText(getActivity(), "Recipe Posted!",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    //upload recipe to user's 'posts' collection with uploadID
+                                    try {
+                                        db.collection("users").document(userID).collection("posts").document(uploadID).set(rec);
+                                    } catch(ArithmeticException e) {
+                                        System.out.println("Couldn't save to drafts");
+                                    }
+
+                                    //reset form
+                                    recName_layout.getEditText().getText().clear();
+                                    steps_layout.getEditText().getText().clear();
+                                    ingName_layout.getEditText().getText().clear();
+                                    ingAmt_layout.getEditText().getText().clear();
+                                    ingUnit_layout.getEditText().getText().clear();
+                                    whole_checkbox.setChecked(false);
+                                    ingUnit_layout.getEditText().setEnabled(true);
+                                    recipe = new Recipe();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getActivity(), "Error Occurred! Try again.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                    boolean success = sqlDraftsDbHelper.addOne(recipe);
+
+                    Log.d("parse", "save_rec() -- recipe.getIngredient = \n" + recipe.getIngredients());
+
+                    Toast.makeText(getActivity(),"Draft Saved!", Toast.LENGTH_SHORT).show();
+
+
+
+                } else {
+                    Toast.makeText(getActivity(), "Draft Incomplete!\nMake sure all fields are filled.",
+                            Toast.LENGTH_SHORT).show();
+                }
 
                 //add recipe to db
                 recipe.setName(recName);
@@ -115,6 +219,8 @@ public class PostRecipesFragment extends Fragment {
                             }
                         });
 
+
+
             }
         });
 
@@ -140,7 +246,7 @@ public class PostRecipesFragment extends Fragment {
                     ingUnit_layout.setError("Enter unit");
                     ingUnit_layout.setErrorEnabled(true);
                     emptyCount++;
-                } else  ingUnit_layout.setErrorEnabled(true);
+                } else  ingUnit_layout.setErrorEnabled(false);
 
                 if(ingAmount.isEmpty()) {
                     ingAmt_layout.setError("Enter amount");
@@ -188,6 +294,15 @@ public class PostRecipesFragment extends Fragment {
                     emptyCount++;
                 } else steps_layout.setErrorEnabled(false);
 
+                if(recipe.getIngredients().isEmpty()) {
+                    butt_addIn.setBackgroundColor(Color.parseColor("#dc143c"));
+                    butt_addIn.setTextColor(Color.WHITE);
+                    emptyCount++;
+                } else {
+                    butt_addIn.setBackgroundColor(Color.parseColor("#cccccc"));
+                    butt_addIn.setTextColor(Color.BLACK);
+                }
+
                 if(emptyCount == 0 && !recipe.getIngredients().isEmpty()) {
                     butt_addIn.setBackgroundColor(Color.parseColor("#cccccc"));
                     butt_addIn.setTextColor(Color.BLACK);
@@ -211,7 +326,6 @@ public class PostRecipesFragment extends Fragment {
                         ingMap.put(i.name, list);
                     }
 
-                    //-------------------------TRACY INCLUDE THIS vv------------------------------------
                     //set up db map
                     final Map<String, Object> rec = new HashMap<>();
                     rec.put("name", recName);
@@ -236,7 +350,6 @@ public class PostRecipesFragment extends Fragment {
                                 } catch(ArithmeticException e) {
                                     System.out.println("Couldn't save to drafts");
                                 }
-                    //----------------------------------------------------------------------------
 
                                 //reset form
                                 recName_layout.getEditText().getText().clear();
@@ -258,8 +371,8 @@ public class PostRecipesFragment extends Fragment {
                         });
 
                 } else {
-                    butt_addIn.setBackgroundColor(Color.parseColor("#dc143c"));
-                    butt_addIn.setTextColor(Color.WHITE);
+                    Toast.makeText(getActivity(), "Make sure all fields are filled.",
+                            Toast.LENGTH_SHORT).show();
                 }
 
             }

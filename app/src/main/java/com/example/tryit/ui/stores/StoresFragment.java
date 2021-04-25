@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -21,17 +22,27 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.tryit.MainActivity;
 import com.example.tryit.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import java.io.IOException;
+import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
+
+import android.location.Address;
+import java.util.List;
 
 public class StoresFragment extends Fragment implements LocationListener {
 
@@ -82,9 +93,32 @@ public class StoresFragment extends Fragment implements LocationListener {
                         Criteria criteria = new Criteria();
                         LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
                         String provider = locationManager.getBestProvider(criteria, true);
-                        Location location = locationManager.getLastKnownLocation(provider);
+                        Location location = locationManager.getLastKnownLocation(provider); //testing: getCurrentLocation(provider);
+                        //----------testing-----------
+//                        FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
+//                        System.out.println("getting");
+//                        fusedLocationProviderClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Location> task) {
+//                                System.out.println("here1");
+//                                Location loc = task.getResult();
+//                                System.out.println("here");
+//                                try {
+//                                    if(loc != null) {
+//                                        System.out.println("getting1");
+//                                        Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+//                                        List<Address> addresses = geocoder.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+//                                        System.out.println(addresses);
+//
+//                                    } else System.out.println("getting2");
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        });
+                        //----------------
                         if(location == null){
-
+                            System.out.println("issue");
                         }else{
                             double latitude = location.getLatitude();
                             double longitude = location.getLongitude();
