@@ -69,6 +69,7 @@ public class PostRecipesFragment extends Fragment {
 
                 int emptyCount = 0;
 
+                //check for empty form fields and flag them
                 if(recName.isEmpty()) {
                     recName_layout.setError("Enter name");
                     recName_layout.setErrorEnabled(true);
@@ -88,6 +89,7 @@ public class PostRecipesFragment extends Fragment {
                 }
 
                 if(emptyCount == 0) {
+                    //turn off all flags/errors
                     butt_addIn.setBackgroundColor(Color.parseColor("#cccccc"));
                     butt_addIn.setTextColor(Color.BLACK);
 
@@ -98,6 +100,8 @@ public class PostRecipesFragment extends Fragment {
                     steps_layout.setErrorEnabled(false);
 
                     //add recipe to db
+
+                    //set up recipe object
                     recipe.setName(recName);
                     recipe.setSteps(steps);
 
@@ -116,24 +120,24 @@ public class PostRecipesFragment extends Fragment {
                     rec.put("steps", steps);
                     rec.put("ingredients", ingMap);
 
-                    final String uploadID = db.collection("recipes").document().getId();
+                    //add to SQL db
+                    boolean success = sqlDraftsDbHelper.addOne(recipe);
+
+                    Log.d("parse", "save_rec() -- recipe.getIngredient = \n" + recipe.getIngredients());
+
+                    //add recipe to Firebase DB
+
+                    String uploadID = db.collection("users").document(userID).collection("drafts").document().getId();
                     rec.put("docID", uploadID);
 
-                    db.collection("recipes")
+                    db.collection("users").document(userID).collection("drafts")
                             .document(uploadID).set(rec)
-                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            .addOnSuccessListener(new OnSuccessListener<Void> () {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    System.out.println("Recipe Posted!");
-                                    Toast.makeText(getActivity(), "Recipe Posted!",
+                                    System.out.println("Draft Saved!");
+                                    Toast.makeText(getActivity(), "Draft Saved!",
                                             Toast.LENGTH_SHORT).show();
-
-                                    //upload recipe to user's 'posts' collection with uploadID
-                                    try {
-                                        db.collection("users").document(userID).collection("posts").document(uploadID).set(rec);
-                                    } catch(ArithmeticException e) {
-                                        System.out.println("Couldn't save to drafts");
-                                    }
 
                                     //reset form
                                     recName_layout.getEditText().getText().clear();
@@ -154,72 +158,22 @@ public class PostRecipesFragment extends Fragment {
                                 }
                             });
 
-                    boolean success = sqlDraftsDbHelper.addOne(recipe);
-
-                    Log.d("parse", "save_rec() -- recipe.getIngredient = \n" + recipe.getIngredients());
-
                     Toast.makeText(getActivity(),"Draft Saved!", Toast.LENGTH_SHORT).show();
 
+                    //reset form
+                    ingName_layout.getEditText().getText().clear();
+                    ingAmt_layout.getEditText().getText().clear();
+                    ingUnit_layout.getEditText().getText().clear();
+                    whole_checkbox.setChecked(false);
+                    ingUnit_layout.getEditText().setEnabled(true);
+                    recName_layout.getEditText().getText().clear();
+                    steps_layout.getEditText().getText().clear();
 
 
                 } else {
                     Toast.makeText(getActivity(), "Draft Incomplete!\nMake sure all fields are filled.",
                             Toast.LENGTH_SHORT).show();
                 }
-
-                //add recipe to db
-                recipe.setName(recName);
-                recipe.setSteps(steps);
-
-                //set up ingredients map
-                Map<String, ArrayList> ingMap = new HashMap<>();
-                if(!recipe.getIngredients().isEmpty()) {
-                    for (Ingredient i: recipe.getIngredients()) {
-                        ArrayList list = new ArrayList<String>();
-                        list.add(String.valueOf(i.amount));
-                        list.add(i.unit);
-                        ingMap.put(i.name, list);
-                    }
-                }
-
-                //set up db map
-                Map<String, Object> rec = new HashMap<>();
-                rec.put("name", recName);
-                rec.put("steps", steps);
-                rec.put("ingredients", ingMap);
-
-                String uploadID = db.collection("users").document(userID).collection("drafts").document().getId();
-                rec.put("docID", uploadID);
-
-                db.collection("users").document(userID).collection("drafts")
-                        .document(uploadID).set(rec)
-                        .addOnSuccessListener(new OnSuccessListener<Void> () {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                System.out.println("Draft Saved!");
-                                Toast.makeText(getActivity(), "Draft Saved!",
-                                        Toast.LENGTH_SHORT).show();
-
-                                //reset form
-                                recName_layout.getEditText().getText().clear();
-                                steps_layout.getEditText().getText().clear();
-                                ingName_layout.getEditText().getText().clear();
-                                ingAmt_layout.getEditText().getText().clear();
-                                ingUnit_layout.getEditText().getText().clear();
-                                whole_checkbox.setChecked(false);
-                                ingUnit_layout.getEditText().setEnabled(true);
-                                recipe = new Recipe();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(getActivity(), "Error Occurred! Try again.",
-                                        Toast.LENGTH_SHORT).show();
-                            }
-                        });
-
-
 
             }
         });
@@ -260,16 +214,17 @@ public class PostRecipesFragment extends Fragment {
                 if(emptyCount == 0) {
                     Ingredient ing = new Ingredient(ingName, ingUnit, amount,ingName);
                     recipe.addIngredient(ing);
+
+                    //reset form
+                    ingName_layout.getEditText().getText().clear();
+                    ingAmt_layout.getEditText().getText().clear();
+                    ingUnit_layout.getEditText().getText().clear();
+                    whole_checkbox.setChecked(false);
+                    ingUnit_layout.getEditText().setEnabled(true);
+
                     Toast.makeText(getActivity(), "Ingredient Added",
                             Toast.LENGTH_SHORT).show();
                 }
-
-                //reset form
-                ingName_layout.getEditText().getText().clear();
-                ingAmt_layout.getEditText().getText().clear();
-                ingUnit_layout.getEditText().getText().clear();
-                whole_checkbox.setChecked(false);
-                ingUnit_layout.getEditText().setEnabled(true);
 
             }
         });
@@ -314,6 +269,8 @@ public class PostRecipesFragment extends Fragment {
                     steps_layout.setErrorEnabled(false);
 
                     //add recipe to db
+
+                    //set up recipe object
                     recipe.setName(recName);
                     recipe.setSteps(steps);
 
@@ -335,6 +292,7 @@ public class PostRecipesFragment extends Fragment {
                     final String uploadID = db.collection("recipes").document().getId();
                     rec.put("docID", uploadID);
 
+                    //add to Firebase
                     db.collection("recipes")
                         .document(uploadID).set(rec)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
